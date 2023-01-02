@@ -39,7 +39,7 @@ export class LayoutService {
         componentTheme: 'indigo',
         scale: 14,
         menuTheme: 'light',
-        topbarTheme: 'indigo',
+        topbarTheme: 'purple',
         menuProfilePosition: 'end'
     };
 
