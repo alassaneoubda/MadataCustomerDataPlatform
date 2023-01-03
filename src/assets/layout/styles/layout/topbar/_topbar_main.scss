@@ -131,14 +131,14 @@
 
                     > div {
                         position: absolute;
-                        top: 3.25rem;
+                        top: 3.5rem;
                         right: 0;
-                        min-width: 20rem;
-                        padding: 1rem 0;
+                        min-width: 18rem;
+                        padding: .5rem 0;
                         transform-origin: top;
                         background: var(--surface-overlay);
                         color: var(--text-color);
-                        border-radius: var(--border-radius);
+                        border-top: 4px solid var(--topbar-bg);
                         box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
                     }
 
