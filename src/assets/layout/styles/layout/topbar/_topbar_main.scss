@@ -143,38 +143,38 @@
                     }
 
                     &.layout-topbar-search {
-                        position: static;
-                        
-                        .layout-search-panel {
-                            background: var(--surface-overlay);
-                            height: 4rem;
-                            width: 100%;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            z-index: 1000;
-                            transform-origin: top;
-                            display: flex;
-                            align-items: center;
-                            padding: 0 2rem;
-                            border-radius: 0;
-
-                            > i {
-                                color: var(--text-color);
-                            }
-
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                           
                             input {
-                                border-radius: 0;
-                                border: 0 none;
-                                flex-grow: 1;
-                                background-color: transparent;
-                                margin: 0 1rem;
+                                padding: .65rem 1rem;
+                                color: var(--surface-0);
+                                background-color: rgba(255, 255, 255, 0.2);
+                                border: 1px solid rgba(255,255,255,.5);
+                                border-radius: 1.5rem;
+                                width: 14rem;
+                                font-size: 1rem;
+                                transition: var(--transition-duration);
 
+                                &::placeholder {
+                                    color: var(--surface-0);
+                                }
+                                
                                 &:focus {
                                     outline: 0 none;
+                                    border: 1px solid transparent;
                                 }
+
                             }
-                        }
+
+                            > i {
+                                color: var(--surface-0);
+                                position: absolute;
+                                right: .75rem;
+                                font-size: 1.25rem;
+                            }
+
                     }
                 }
             }

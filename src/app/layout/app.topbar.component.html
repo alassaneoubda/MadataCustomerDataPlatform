@@ -16,15 +16,8 @@
         <div class="layout-topbar-actions-end">
             <ul class="layout-topbar-items">
                 <li class="layout-topbar-search">
-                    <a pStyleClass="@next" enterClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden" leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple (click)="focusSearchInput()">
-                        <i class="pi pi-search"></i>
-                    </a>
-
-                    <div class="layout-search-panel ng-hidden p-input-filled">
-                        <i class="pi pi-search"></i>
-                        <input #searchInput type="text" pInputText placeholder="Search">
-                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-text p-button-plain" pStyleClass=".layout-search-panel" leaveToClass="ng-hidden" leaveActiveClass="px-fadeout"></button>
-                    </div>
+                    <input type="text" placeholder="Search">
+                    <i class="pi-fw pi pi-search"></i>
                 </li>
                 <li>
                     <a pStyleClass="@next" enterClass="ng-hidden" enterActiveClass="px-scalein" leaveToClass="ng-hidden" leaveActiveClass="px-fadeout" [hideOnOutsideClick]="true" pRipple>
