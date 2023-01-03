@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MegaMenuItem } from 'primeng/api';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -24,9 +23,6 @@ export class AppTopbarComponent {
         this.layoutService.onMenuToggle();
     }
 
-    onRightMenuButtonClick() {
-        this.layoutService.openRightSidebar();
-    }
 
     onMobileTopbarMenuButtonClick() {
         this.layoutService.onTopbarMenuToggle();
