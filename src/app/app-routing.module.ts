@@ -9,7 +9,9 @@ const routerOptions: ExtraOptions = {
 const routes: Routes = [
     {
         path: '', component: AppLayoutComponent,
-        children: []
+        children: [
+            { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then(m => m.DashboardsModule) },
+        ]
     },
 ];
 
