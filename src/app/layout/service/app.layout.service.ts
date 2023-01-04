@@ -40,7 +40,7 @@ export class LayoutService {
         scale: 14,
         menuTheme: 'light',
         topbarTheme: 'purple',
-        menuProfilePosition: 'end'
+        menuProfilePosition: 'start'
     };
 
     state: LayoutState = {
