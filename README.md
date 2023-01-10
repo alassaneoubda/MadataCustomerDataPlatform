@@ -1,4 +1,4 @@
-## Ultima PrimeNG
+## Avalon PrimeNG
 
 ## Development server
 
