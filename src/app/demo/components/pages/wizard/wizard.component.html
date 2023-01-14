@@ -6,11 +6,11 @@
                 <div style="height: 540px;" class="surface-50 w-full flex flex-column flex-shrink-0 flex-grow-0">
                     <div class="w-full shadow-3 flex relative surface-900">
                         <div class="flex w-full justify-content-center py-4">
-                            <div class="flex w-full lg:w-6 justify-content-center">
+                            <div class="flex w-full lg:w-6 justify-content-center px-3">
                                 <div class="w-auto flex justify-content-center align-items-center"
                                     (click)="clickNext('register')">
                                     <div class="w-full surface-400 relative hidden" style="height: 8px;"></div>
-                                    <div class="surface-200 h-2rem w-2rem border-circle border-none shadow-1 cursor-pointer z-1"
+                                    <div style="width:32px; height:32px;" class="surface-200 border-circle border-none shadow-1 cursor-pointer z-1"
                                         [ngClass]="{'bg-indigo-500': activeTab !== null}"></div>
                                 </div>
                                 <div class="w-full flex justify-content-center align-items-center"
@@ -18,7 +18,7 @@
                                     <div class="w-full surface-400 relative" style="height: 8px;"
                                         [ngClass]="{'bg-indigo-500':  activeTab === 'tier' || activeTab === 'payment'}">
                                     </div>
-                                    <div class="surface-200 h-2rem w-2rem border-circle border-none shadow-1 cursor-pointer z-1"
+                                    <div style="width:32px; height:32px;" class="surface-200 border-circle border-none shadow-1 cursor-pointer z-1"
                                         [ngClass]="{'bg-indigo-500':  activeTab === 'tier' || activeTab === 'payment'}">
                                     </div>
                                 </div>
@@ -27,7 +27,7 @@
                                     <div class="w-full surface-400 relative" style="height: 8px;"
                                         [ngClass]="{'bg-indigo-500':  activeTab === 'payment'}">
                                     </div>
-                                    <div class="surface-200 h-2rem w-2rem border-circle border-none shadow-1 cursor-pointer z-1"
+                                    <div style="width:32px; height:32px;" class="surface-200 border-circle border-none shadow-1 cursor-pointer z-1"
                                         [ngClass]="{'bg-indigo-500': activeTab === 'payment'}"></div>
                                 </div>
                             </div>
