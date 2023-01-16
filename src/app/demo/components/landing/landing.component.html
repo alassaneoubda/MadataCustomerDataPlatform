@@ -1,10 +1,10 @@
 <div>
     <div class="bg-cover bg-no-repeat bg-center py-6"
         style="background: url(/assets/layout/images/landing/landing-main.jpg)">
-        <div class="my-0 mx-auto" style="width: 1200px">
-            <div class="flex justify-content-between">
-                <div class="flex w-4 align-items-center gap-4">
-                    <ul class="list-none flex gap-6 text-lg p-0 m-0">
+        <div class="my-0 mx-auto w-full" style="max-width: 1200px">
+            <div class="flex flex-column gap-5 lg:flex-row justify-content-between">
+                <div class="flex justify-content-center lg:justify-content-start align-items-center gap-4">
+                    <ul class="list-none flex gap-6 p-0 m-0">
                         <a href="#" class="text-white">
                             <li>Home</li>
                         </a>
@@ -22,17 +22,15 @@
                         </a>
                     </ul>
                 </div>
-                <div class="flex w-4 justify-content-center">
-                    <img src="/assets/layout/images/landing/logo-landing.svg" class="logo" />
-                </div>
-                <div class="flex w-4 justify-content-end align-items-center gap-3">
+                <div class="flex justify-content-center lg:justify-content-end align-items-center gap-3">
                     <button pButton pRipple label="Login"
                         class="w-8rem p-button-outlined text-white hover:text-color hover:bg-white"></button>
                     <button pButton pRipple label="Register"
                         class="w-8rem p-button-outlined text-white hover:text-color hover:bg-white"></button>
                 </div>
             </div>
-            <div class="flex flex-column align-items-center gap-5 mt-6 pt-0" style="padding: 150px;">
+            <div class="flex flex-column align-items-center gap-5 mt-6 pt-0">
+                <img src="/assets/layout/images/landing/logo-landing.svg" class="lg:-mt-8" />
                 <span class="text-white text-4xl">PrimeNG Presents Avalon</span>
                 <span class="text-white text-2xl text-center line-height-3">Minimal and elegant responsive application
                     template with a premium look for PrimeNG
@@ -42,8 +40,8 @@
         </div>
     </div>
 
-    <div class="grid grid-nogutter justify-content-center">
-        <div class="flex justify-content-center py-6" style="width: 1200px">
+    <div class="flex justify-content-center py-6 w-full">
+        <div class="grid grid-nogutter p-3 justify-content-center" style="max-width: 1200px">
             <div class="col-12 md:col-6 lg:col-3">
                 <div class="relative h-4rem">
                     <img class="absolute bottom-0" src="/assets/layout/images/landing/icon-responsivelayout.svg" />
@@ -79,11 +77,11 @@
         </div>
     </div>
 
-    <div class="surface-ground relative overflow-hidden" style="height: 400px;">
-        <div class="my-0 mx-auto pt-6" style="width: 1200px; padding-left: 100px;">
+    <div class="surface-ground relative overflow-hidden lg:h-28rem" style="height: 600px;">
+        <div class="my-0 mx-auto pt-6 w-full text-center lg:text-left" style="max-width: 1200px; padding-left: 100px;">
             <img src="/assets/layout/images/landing/icon-introducing.svg" class="mb-5 w-6rem" />
             <h2 class="m-0 p-0 text-color text-2xl m-0 mx-auto">Introducing PrimeNG Avalon</h2>
-            <p class="text-color-secondary" style="width: 400px; line-height: 1.5;">Lorem ipsum dolor sit amet,
+            <p class="text-color-secondary text-center lg:text-left" style="width: 400px; line-height: 1.5;">Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit. Curabitur velit neque, aliquam sed dolor eu,
                 sagittis rutrum erat. Donec eu risus vitae tellus rhoncus iaculis.</p>
         </div>
@@ -91,8 +89,8 @@
             style="width: 800px" />
     </div>
 
-    <div class="grid grid-nogutter justify-content-center" style="background-color: #6d6d7e;">
-        <div class="flex justify-content-center py-6" style="width: 1200px;">
+    <div class="flex justify-content-center py-6 w-full" style="background-color: #6d6d7e;">
+        <div class="grid w-full justify-content-center" style="max-width: 1200px;">
             <div class="col-12 lg:col-4">
                 <div class="p-5 bg-pink-600">
                     <img src="/assets/layout/images/landing/icon-ui.svg" />
@@ -117,8 +115,8 @@
         </div>
     </div>
 
-    <div class="grid grid-nogutter justify-content-center">
-        <div class="flex justify-content-center py-6" style="width: 1200px;">
+    <div class="flex justify-content-center py-6 w-full">
+        <div class="grid justify-content-center w-full" style="max-width: 1200px;">
             <div class="col-12 lg:col-4">
                 <div class="border-1 surface-border surface-section h-full text-color border-round">
                     <div class="p-5 border-bottom-1 surface-border">
@@ -188,13 +186,13 @@
         </div>
     </div>
 
-    <div class="grid grid-nogutter justify-content-center bg-gray-100">
-        <div class="flex justify-content-center py-6" style="width: 1200px;">
-            <div class="col-12 md:col-6 text-center">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/WVkX7gkNeyA" frameborder="0"
+    <div class="flex justify-content-center py-6 w-full bg-gray-100">
+        <div class="grid grid-nogutter justify-content-center" style="max-width: 1200px;">
+            <div class="col-12 lg:col-6 text-center">
+                <iframe width="480" height="300" src="https://www.youtube.com/embed/WVkX7gkNeyA" frameborder="0"
                     allowfullscreen="true"></iframe>
             </div>
-            <div class="col-12 md:col-6 text-right">
+            <div class="col-12 lg:col-6 text-center lg:text-right">
                 <img src="/assets/layout/images/landing/icon-video.svg" class="mb-5 w-6rem" />
                 <h2>Introducing PrimeNG Avalon</h2>
                 <p style="line-height: 1.5;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur velit
@@ -205,15 +203,15 @@
         </div>
     </div>
 
-    <div class="grid grid-nogutter justify-content-center" style="background-color: #292b2c;">
-        <div class="flex align-items-center" style="width: 1200px;">
-            <div class="col-12 md:col-6">
+    <div class="flex align-items-center justify-content-center" style="background-color: #292b2c;">
+        <div class="grid w-full" style="max-width: 1200px;">
+            <div class="col-12 lg:col-6 py-5">
                 <img src="/assets/layout/images/landing/avalon.png" />
             </div>
-            <div class="col-12 md:col-6">
-                <ul class="list-none m-0 mt-5 text-center p-0">
+            <div class="col-12 lg:col-6">
+                <ul class="list-none m-0 lg:py-5 text-center p-0">
                     <div class="grid">
-                        <div class="col-12 md:col-6" style="text-align: center">
+                        <div class="col-12 lg:col-6 text-center">
                             <li class="block text-lg text-left py-1">
                                 <a class="text-white border-bottom-1 border-transparent hover:border-white"
                                     href="#home">Home</a>
@@ -227,7 +225,7 @@
                                     href="#statistics">Events</a>
                             </li>
                         </div>
-                        <div class="col-12 md:col-6" style="text-align: center">
+                        <div class="col-12 lg:col-6 text-center">
                             <li class="block text-lg text-left py-1">
                                 <a class="text-white border-bottom-1 border-transparent hover:border-white"
                                     href="#pricing">Pricing</a>
