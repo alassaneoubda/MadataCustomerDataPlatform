@@ -36,7 +36,7 @@ export class LayoutService {
         inputStyle: 'outlined',
         menuMode: 'static',
         colorScheme: 'light',
-        componentTheme: 'indigo',
+        componentTheme: 'purple',
         scale: 14,
         menuTheme: 'light',
         topbarTheme: 'purple',

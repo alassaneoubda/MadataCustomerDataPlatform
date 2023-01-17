@@ -42,6 +42,7 @@ export class DashboardBankingComponent implements OnInit {
 
     initChart() {
         const textColor = getComputedStyle(document.body).getPropertyValue('--text-color')
+        const primaryColor = getComputedStyle(document.body).getPropertyValue('--primary-color')
         const surfaceLight = getComputedStyle(document.body).getPropertyValue('--surface-100')
 
         this.visitorChart = {
@@ -49,7 +50,7 @@ export class DashboardBankingComponent implements OnInit {
             datasets: [
                 {
                     data: [600, 671, 660, 665, 700, 610, 810, 790, 710, 860, 810, 780],
-                    backgroundColor: '#6f42c1',
+                    backgroundColor: primaryColor,
                     fill: true,
                     barPercentage: 0.75,
                     stepped: true

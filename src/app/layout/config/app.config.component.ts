@@ -96,9 +96,9 @@ export class AppConfigComponent implements OnInit {
 
     ngOnInit() {
         this.componentThemes = [
+            {name: 'purple', color: '#9C27B0'},
             {name: 'indigo', color: '#3F51B5'},
             {name: 'pink', color: '#E91E63'},
-            {name: 'purple', color: '#9C27B0'},
             {name: 'blue', color: '#2196F3'},
             {name: 'cyan', color: '#00BCD4'},
             {name: 'teal', color: '#009688'},
