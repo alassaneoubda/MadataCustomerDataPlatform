@@ -1,11 +1,12 @@
-$primaryColor:#FFEB3B;
-$primaryLightestColor: #FFFDE7;
-$primaryMenuTextColor: #F57F17;
-$primaryTextColor:#212121;
-$accentColor:#3b4fff;
-$accentTextColor:#ffffff;
+$primaryColor: #ffc107 !default;
+$primaryLightColor: scale-color($primaryColor, $lightness: 60%) !default;
+$primaryDarkColor: scale-color($primaryColor, $lightness: -10%) !default;
+$primaryDarkerColor: scale-color($primaryColor, $lightness: -20%) !default;
+$primaryTextColor: #1b1b1c !default;
+
+$highlightBg: $primaryColor;
+$highlightTextColor: $primaryTextColor;
 
 @import '../_variables';
-@import '../../_compact';
 @import '../../designer/_components';
 @import '../../extensions/_vendor_extensions';
