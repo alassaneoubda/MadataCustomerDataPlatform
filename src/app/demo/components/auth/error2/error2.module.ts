@@ -4,13 +4,15 @@ import { Error2RoutingModule } from './error2-routing.module';
 import { Error2Component } from './error2.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
     imports: [
         CommonModule,
         Error2RoutingModule,
         ButtonModule,
-        RippleModule
+        RippleModule,
+        DividerModule
     ],
     declarations: [Error2Component]
 })
