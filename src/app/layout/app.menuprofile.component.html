@@ -9,14 +9,14 @@
     </button>
 
     <ul *ngIf="menuProfileActive" [@menu]="isHorizontal ? 'overlay' : 'inline'">
-        <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled" [routerLink]="['/profile/create']">
-            <button class="p-link" [routerLink]="['/documentation']">
+        <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled">
+            <button class="p-link" [routerLink]="['/profile/create']">
                 <i class="pi pi-cog pi-fw"></i>
                 <span>Settings</span>
             </button>
         </li>
         <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled">
-            <button class="p-link" [routerLink]="['/documentation']" [routerLink]="['/documentation']">
+            <button class="p-link" [routerLink]="['/profile/list']">
                 <i class="pi pi-file-o pi-fw"></i>
                 <span>Profile</span>
             </button>
