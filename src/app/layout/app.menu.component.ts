@@ -243,7 +243,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/auth/login']
                             },
                             {
-                                label: 'Login2',
+                                label: 'Login 2',
                                 icon: 'pi pi-fw pi-sign-in',
                                 routerLink: ['/auth/login2']
                             },
@@ -253,7 +253,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/auth/error']
                             },
                             {
-                                label: 'Error2',
+                                label: 'Error 2',
                                 icon: 'pi pi-fw pi-times-circle',
                                 routerLink: ['/auth/error2']
                             },
@@ -263,7 +263,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/auth/access']
                             },
                             {
-                                label: 'Access Denied2',
+                                label: 'Access Denied 2',
                                 icon: 'pi pi-fw pi-lock',
                                 routerLink: ['/auth/access2']
                             },
@@ -300,7 +300,7 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/notfound']
                     },
                     {
-                        label: 'Not Found2',
+                        label: 'Not Found 2',
                         icon: 'pi pi-fw pi-exclamation-circle',
                         routerLink: ['/notfound2']
                     },
