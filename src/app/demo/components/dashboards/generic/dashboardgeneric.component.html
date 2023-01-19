@@ -373,7 +373,7 @@
     <div class="col-12 lg:col-8">
         <div class="card widget-chat">
             <h5>Chat</h5>
-            <ul class="m-0 px-3 pt-3 pb-0 border-none list-none h-30rem overflow-y-auto outline-none" #chatcontainer>
+            <ul class="m-0 px-3 pt-3 pb-0 border-none list-none h-30rem outline-none" #chatcontainer>
                 <li *ngFor="let chatMessage of chatMessages; let last = last;" class="flex align-items-start"
                     [ngClass]="{'from': !!chatMessage.from, 'text-right justify-content-end': !chatMessage.from, 'mb-3': !last, 'mb-1': last}">
                     <img *ngIf="!!chatMessage.url" [src]="chatMessage.url" alt="avatar" width="32px" class="mr-2">
