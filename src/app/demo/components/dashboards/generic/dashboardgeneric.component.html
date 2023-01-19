@@ -379,8 +379,8 @@
                     <img *ngIf="!!chatMessage.url" [src]="chatMessage.url" alt="avatar" width="32px" class="mr-2">
                     <div class="flex flex-column"
                         [ngClass]="{'align-items-start': !!chatMessage.from, 'align-items-end': !chatMessage.from}">
-                        <span style="word-break: break-word;" *ngFor="let message of chatMessage.messages; let first = first" class="p-2 px-3 border-round border-1"
-                            [ngClass]="{'bg-teal-100 border-teal-200': !!chatMessage.from, 'bg-blue-100 border-blue-200': !chatMessage.from, 'mt-1': !first}">
+                        <span style="word-break: break-word;" *ngFor="let message of chatMessage.messages; let first = first" class="p-3 border-round text-white"
+                            [ngClass]="{'bg-pink-600': !!chatMessage.from, 'bg-cyan-600': !chatMessage.from, 'mt-1': !first}">
                             {{message}}
                         </span>
                     </div>
