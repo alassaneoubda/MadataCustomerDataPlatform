@@ -22,7 +22,8 @@
     width: 100%;
     background: var(--menu-bg);
     overflow: hidden;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 15%);
+    //box-shadow: 0 2px 5px 0 rgb(0 0 0 / 15%);
+    border-bottom: 1px solid var(--surface-border);
 
     > button {
         display: flex;

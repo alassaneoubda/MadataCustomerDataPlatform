@@ -5,7 +5,8 @@
     left: 0;
     width: 17rem;
     background: var(--menu-bg);
-    box-shadow: 2px 0 4px -1px rgb(0 0 0 / 20%), 4px 0 5px 0 rgb(0 0 0 / 14%), 1px 0 10px 0 rgb(0 0 0 / 12%);
+    //box-shadow: 2px 0 4px -1px rgb(0 0 0 / 20%), 4px 0 5px 0 rgb(0 0 0 / 14%), 1px 0 10px 0 rgb(0 0 0 / 12%);
+    border-right: 1px solid var(--surface-border);
     display: flex;
     flex-direction: column;
 
