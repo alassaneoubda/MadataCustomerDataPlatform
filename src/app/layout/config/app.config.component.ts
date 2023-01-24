@@ -70,6 +70,11 @@ export class AppConfigComponent implements OnInit {
     set colorScheme(_val: string) {
         this.selectedScene = ''
         this.changeColorScheme(_val);
+        if (_val === 'dark' && this.componentTheme === 'black') {
+            setTimeout(() => {
+                this.changeTheme('purple')
+            }, 100);
+        }
     }
 
     get inputStyle(): string {
@@ -111,6 +116,7 @@ export class AppConfigComponent implements OnInit {
             { name: 'green', color: '#198754' },
             { name: 'yellow', color: '#ffc107' },
             { name: 'orange', color: '#fd7e14' },
+            { name: 'black', color: '#000000' },
         ];
 
         this.menuThemes = [

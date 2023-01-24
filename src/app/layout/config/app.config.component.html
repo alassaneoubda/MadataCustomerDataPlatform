@@ -171,7 +171,7 @@
         <h5>Component Themes</h5>
         <div class="flex flex-wrap row-gap-3">
             <div class="w-3" *ngFor="let theme of componentThemes">
-                <button type="button"
+                <button type="button" *ngIf="(layoutService.config.colorScheme === 'dark' && theme.name === 'black') === false"
                     class="cursor-pointer p-link w-2rem h-2rem border-round shadow-2 flex-shrink-0 flex justify-content-center align-items-center border-circle"
                     (click)="changeTheme(theme.name)" [ngStyle]="{'background-color': theme.color}"><i
                         *ngIf="componentTheme === theme.name" class="pi pi-check text-lg text-white"></i></button>
