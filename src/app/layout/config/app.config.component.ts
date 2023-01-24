@@ -16,7 +16,11 @@ export class AppConfigComponent implements OnInit {
 
     topbarThemes: any[] = [];
 
-    scales: number[] = [12,13,14,15,16];
+    scenes: any[] = [];
+
+    scales: number[] = [12, 13, 14, 15, 16];
+
+    selectedScene: any = ""
 
     constructor(public layoutService: LayoutService, public menuService: MenuService) { }
 
@@ -96,41 +100,52 @@ export class AppConfigComponent implements OnInit {
 
     ngOnInit() {
         this.componentThemes = [
-            {name: 'purple', color: '#6f42c1'},
-            {name: 'indigo', color: '#6610f2'},
-            {name: 'pink', color: '#d63384'},
-            {name: 'blue', color: '#0d6efd'},
-            {name: 'cyan', color: '#0dcaf0'},
-            {name: 'teal', color: '#20c997'},
-            {name: 'green', color: '#198754'},
-            {name: 'yellow', color: '#ffc107'},
-            {name: 'orange', color: '#fd7e14'},
+            { name: 'purple', color: '#6f42c1' },
+            { name: 'indigo', color: '#6610f2' },
+            { name: 'pink', color: '#d63384' },
+            { name: 'blue', color: '#0d6efd' },
+            { name: 'cyan', color: '#0dcaf0' },
+            { name: 'teal', color: '#20c997' },
+            { name: 'green', color: '#198754' },
+            { name: 'yellow', color: '#ffc107' },
+            { name: 'orange', color: '#fd7e14' },
         ];
 
         this.menuThemes = [
-            {name: 'light', color: '#ffffff'},
-            {name: 'dark', color: '#212529'},
-            {name: 'indigo', color: '#6610f2'},
-            {name: 'cyan', color: '#0dcaf0'},
-            {name: 'green', color: '#198754'},
-            {name: 'pink', color: '#d63384'},
-            {name: 'purple', color: '#6f42c1'},
-            {name: 'teal', color: '#20c997'}
+            { name: 'light', color: '#ffffff' },
+            { name: 'dark', color: '#212529' },
+            { name: 'indigo', color: '#6610f2' },
+            { name: 'cyan', color: '#0dcaf0' },
+            { name: 'green', color: '#198754' },
+            { name: 'pink', color: '#d63384' },
+            { name: 'purple', color: '#6f42c1' },
+            { name: 'teal', color: '#20c997' }
         ];
 
         this.topbarThemes = [
-            {name: 'light', color: '#FFFFFF'},
-            {name: 'dark', color: '#212529'},
-            {name: 'blue', color: '#1565C0'},
-            {name: 'purple', color: '#6A1B9A'},
-            {name: 'pink', color: '#AD1457'},
-            {name: 'cyan', color: '#0097A7'},
-            {name: 'teal', color: '#00796B'},
-            {name: 'green', color: '#43A047'},
-            {name: 'yellow', color: '#FBC02D'},
-            {name: 'orange', color: '#FB8C00'},
-            {name: 'indigo', color: '#3F51B5'}
+            { name: 'light', color: '#FFFFFF' },
+            { name: 'dark', color: '#212529' },
+            { name: 'blue', color: '#1565C0' },
+            { name: 'purple', color: '#6A1B9A' },
+            { name: 'pink', color: '#AD1457' },
+            { name: 'cyan', color: '#0097A7' },
+            { name: 'teal', color: '#00796B' },
+            { name: 'green', color: '#43A047' },
+            { name: 'yellow', color: '#FBC02D' },
+            { name: 'orange', color: '#FB8C00' },
+            { name: 'indigo', color: '#3F51B5' }
         ];
+
+        this.scenes = [
+            { sceneName: 'Green Light', colorScheme: 'light', colorSchemeColor: '#EFEFEF', menuTheme: 'light', menuThemeColor: '#ffffff', componentTheme: 'green', componentThemeColor: '#198754', topbarTheme: 'green', topbarThemeColor: '#43A047', menuMode: 'static', cardColor: '#ffffff' },
+            { sceneName: 'Dark Sea', colorScheme: 'dark', colorSchemeColor: '#20262e', menuTheme: 'dark', menuThemeColor: '#2a323d', componentTheme: 'cyan', componentThemeColor: '#0dcaf0', topbarTheme: 'cyan', topbarThemeColor: '#0097A7', menuMode: 'static', cardColor: '#2a323d' },
+            { sceneName: 'Blue Marble', colorScheme: 'light', colorSchemeColor: '#EFEFEF', menuTheme: 'light', menuThemeColor: '#ffffff', componentTheme: 'blue', componentThemeColor: '#0d6efd', topbarTheme: 'blue', topbarThemeColor: '#1565C0', menuMode: 'static', cardColor: '#ffffff' },
+            { sceneName: 'Emerald', colorScheme: 'dark', colorSchemeColor: '#20262e', menuTheme: 'dark', menuThemeColor: '#2a323d', componentTheme: 'teal', componentThemeColor: '#20c997', topbarTheme: 'teal', topbarThemeColor: '#00796B', menuMode: 'static', cardColor: '#2a323d' },
+            { sceneName: 'Piano Black', colorScheme: 'light', colorSchemeColor: '#EFEFEF', menuTheme: 'dark', menuThemeColor: '#212529', componentTheme: 'teal', componentThemeColor: '#20c997', topbarTheme: 'dark', topbarThemeColor: '#212529', menuMode: 'static', cardColor: '#ffffff' },
+            { sceneName: 'Bolt', colorScheme: 'dark', colorSchemeColor: '#20262e', menuTheme: 'dark', menuThemeColor: '#2a323d', componentTheme: 'yellow', componentThemeColor: '#ffc107', topbarTheme: 'yellow', topbarThemeColor: '#FBC02D', menuMode: 'static', cardColor: '#2a323d' },
+            { sceneName: 'Amber', colorScheme: 'light', colorSchemeColor: '#EFEFEF', menuTheme: 'dark', menuThemeColor: '#212529', componentTheme: 'yellow', componentThemeColor: '#ffc107', topbarTheme: 'yellow', topbarThemeColor: '#FBC02D', menuMode: 'horizontal', cardColor: '#ffffff' },
+            { sceneName: 'Kingdom', colorScheme: 'dark', colorSchemeColor: '#20262e', menuTheme: 'dark', menuThemeColor: '#2a323d', componentTheme: 'indigo', componentThemeColor: '#6610f2', topbarTheme: 'purple', topbarThemeColor: '#6A1B9A', menuMode: 'reveal', cardColor: '#2a323d' },
+        ]
     }
 
     onConfigButtonClick() {
@@ -150,12 +165,12 @@ export class AppConfigComponent implements OnInit {
         });
     }
 
-    changeTopbarTheme(theme:string) {
+    changeTopbarTheme(theme: string) {
         this.layoutService.config.topbarTheme = theme;
         this.layoutService.onConfigUpdate();
     }
 
-    changeMenuTheme(theme:string) {
+    changeMenuTheme(theme: string) {
         this.layoutService.config.menuTheme = theme;
         this.layoutService.onConfigUpdate();
     }
@@ -173,5 +188,17 @@ export class AppConfigComponent implements OnInit {
     applyScale() {
         document.documentElement.style.fontSize = this.scale + 'px';
     }
-    
+
+    changeScene(item: any) {
+        this.changeTheme(item.componentTheme)
+        setTimeout(() => {
+            this.changeColorScheme(item.colorScheme);
+            this.changeMenuTheme(item.menuTheme)
+            this.changeTopbarTheme(item.topbarTheme)
+            this.menuMode = item.menuMode
+        }, 100);
+
+        this.selectedScene = item.sceneName
+    }
+
 }
