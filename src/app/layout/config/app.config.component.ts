@@ -45,6 +45,7 @@ export class AppConfigComponent implements OnInit {
     }
 
     set menuMode(_val: string) {
+        this.selectedScene = ''
         this.layoutService.config.menuMode = _val;
         if (this.layoutService.isSlim() || this.layoutService.isHorizontal()) {
             this.menuService.reset();
@@ -67,6 +68,7 @@ export class AppConfigComponent implements OnInit {
     }
 
     set colorScheme(_val: string) {
+        this.selectedScene = ''
         this.changeColorScheme(_val);
     }
 
@@ -153,6 +155,7 @@ export class AppConfigComponent implements OnInit {
     }
 
     changeColorScheme(colorScheme: string) {
+        if (this.selectedScene) this.selectedScene = ''
         this.layoutService.onColorSchemeChange(colorScheme);
     }
 
@@ -166,11 +169,14 @@ export class AppConfigComponent implements OnInit {
     }
 
     changeTopbarTheme(theme: string) {
+        if (this.selectedScene) this.selectedScene = ''
+
         this.layoutService.config.topbarTheme = theme;
         this.layoutService.onConfigUpdate();
     }
 
     changeMenuTheme(theme: string) {
+        if (this.selectedScene) this.selectedScene = ''
         this.layoutService.config.menuTheme = theme;
         this.layoutService.onConfigUpdate();
     }
@@ -196,9 +202,9 @@ export class AppConfigComponent implements OnInit {
             this.changeMenuTheme(item.menuTheme)
             this.changeTopbarTheme(item.topbarTheme)
             this.menuMode = item.menuMode
+            this.selectedScene = item.sceneName
         }, 100);
 
-        this.selectedScene = item.sceneName
     }
 
 }
