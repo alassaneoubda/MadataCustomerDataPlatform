@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { Product } from 'src/app/demo/api/product';
-import { ProductService } from 'src/app/demo/service/product.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+
+interface MonthlyPayment {
+    name?: string;
+    amount?: number;
+    paid?: boolean;
+    date?: string;
+}
 
 @Component({
     templateUrl: './dashboardbanking.component.html',
 })
 export class DashboardBankingComponent implements OnInit {
 
-    products: Product[] = [];
-
     dropdownItem: SelectItem[] = [];
 
     selectedDropdownItem: any;
+
+    payments: MonthlyPayment[] = [];
 
     visitorChart: any;
 
@@ -23,18 +28,25 @@ export class DashboardBankingComponent implements OnInit {
     subscription!: Subscription
 
 
-    constructor(private productService: ProductService, private layoutService: LayoutService) {
-        this.subscription = layoutService.configUpdate$.subscribe(config =>{
+    constructor(private layoutService: LayoutService) {
+        this.subscription = layoutService.configUpdate$.subscribe(config => {
             this.initChart()
         })
-     }
+    }
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
         this.dropdownItem.push({ label: 'Select One', value: null });
         this.dropdownItem.push({ label: 'Xbox Series X', value: { id: 1, name: 'Xbox One', code: 'XO' } });
         this.dropdownItem.push({ label: 'PlayStation 5', value: { id: 2, name: 'PS4', code: 'PS4' } });
         this.dropdownItem.push({ label: 'Nintendo Switch', value: { id: 3, name: 'Wii U', code: 'WU' } });
+
+        this.payments = [
+            { name: 'Electric Bill', amount: 75.60, paid: true, date: '06/04/2022' },
+            { name: 'Water Bill', amount: 45.50, paid: true, date: '07/04/2022' },
+            { name: 'Gas Bill', amount: 45.20, paid: false, date: '12/04/2022' },
+            { name: 'Internet Bill', amount: 25.90, paid: true, date: '17/04/2022' },
+            { name: 'Streaming', amount: 40.90, paid: false, date: '20/04/2022' }
+        ]
 
         this.initChart();
 
