@@ -86,8 +86,10 @@
     <div class="col-12 md:col-6 xl:col-3">
         <div class="py-4 px-2 border-round-md surface-card flex justify-content-between gap-3 border-1 surface-border">
             <div class="flex gap-3 align-items-center">
-                <img style="object-fit: contain;" src="assets/layout/images/dashboard-banking/icon-dollar.svg"
-                    alt="avalon-layout" width="30" height="30" />
+                <div class="p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2"
+                    [ngClass]="{'bg-primary-900 text-900': layoutService.config.colorScheme === 'dark'}">
+                    <i class="pi pi-dollar text-2xl"></i>
+                </div>
 
                 <div>
                     <div class="text-xl font-medium text-left">USD</div>
@@ -111,8 +113,10 @@
     <div class="col-12 md:col-6 xl:col-3">
         <div class="py-4 px-2 border-round-md surface-card flex justify-content-between gap-3 border-1 surface-border">
             <div class="flex gap-3 align-items-center">
-                <img style="object-fit: contain;" src="assets/layout/images/dashboard-banking/icon-euro.svg"
-                    alt="avalon-layout" width="30" height="30" />
+                <div class="p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2"
+                    [ngClass]="{'bg-primary-900': layoutService.config.colorScheme === 'dark'}">
+                    <i class="pi pi-euro text-2xl"></i>
+                </div>
 
                 <div>
                     <div class="text-xl font-medium text-left">EUR</div>
@@ -136,8 +140,10 @@
     <div class=" col-12 md:col-6 xl:col-3">
         <div class="py-4 px-2 border-round-md surface-card flex justify-content-between gap-3 border-1 surface-border">
             <div class="flex gap-3 align-items-center">
-                <img style="object-fit: contain;" src="assets/layout/images/dashboard-banking/icon-gbp.svg"
-                    alt="avalon-layout" width="30" height="30" />
+                <div class="p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2"
+                    [ngClass]="{'bg-primary-900': layoutService.config.colorScheme === 'dark'}">
+                    <i class="pi pi-pound text-2xl"></i>
+                </div>
 
                 <div>
                     <div class="text-xl font-medium text-left">GBP</div>
@@ -161,11 +167,13 @@
     <div class="col-12 md:col-6 xl:col-3">
         <div class="py-4 px-2 border-round-md surface-card flex justify-content-between gap-3 border-1 surface-border">
             <div class="flex gap-3 align-items-center">
-                <img style="object-fit: contain;" src="assets/layout/images/dashboard-banking/icon-gold.svg"
-                    alt="avalon-layout" width="30" height="30" />
+                <div class="p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2"
+                    [ngClass]="{'bg-primary-900': layoutService.config.colorScheme === 'dark'}">
+                    <i class="pi pi-bitcoin text-2xl"></i>
+                </div>
 
                 <div>
-                    <div class="text-xl font-medium text-left">GOLD</div>
+                    <div class="text-xl font-medium text-left">BITCOIN</div>
                 </div>
             </div>
             <div class="flex gap-3">
