@@ -15,7 +15,7 @@
                 [disabled]="scale === scales[scales.length - 1]"></button>
         </div>
 
-        <h5>Scene Presets</h5>
+        <h5>Scenes</h5>
         <div class="flex flex-wrap p-2 surface-100 gap-2 border-round-lg">
             <button pButton (click)="changeScene(item)" class="bg-transparent border-none relative p-0"
                 *ngFor="let item of scenes" style="flex: 0 0 48%;" [pTooltip]="item.sceneName" tooltipPosition="top" >
