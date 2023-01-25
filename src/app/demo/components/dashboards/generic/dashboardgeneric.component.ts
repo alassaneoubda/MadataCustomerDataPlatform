@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
 import { AppConfig, LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ProductService } from '../../../service/product.service';
+import { Table } from 'primeng/table';
 
 @Component({
     templateUrl: './dashboardgeneric.component.html',
@@ -20,15 +21,13 @@ export class DashboardGenericComponent implements OnInit {
 
     items!: MenuItem[];
 
-    chatMessages: any[] = [];
-
-    chatEmojis: any[] = [];
+    cols: any[] = [];
 
     subscription!: Subscription;
 
     @ViewChild('chatcontainer') chatContainerViewChild!: ElementRef;
 
-    
+
     constructor(private productService: ProductService, public layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$.subscribe(config => {
             this.config = config;
@@ -39,21 +38,13 @@ export class DashboardGenericComponent implements OnInit {
     ngOnInit() {
         this.productService.getProducts().then(data => this.products = data);
 
-        this.chatMessages = [
-            { from: 'Ioni Bowcher', url: 'assets/demo/images/avatar/ionibowcher.png', messages: ['Retro occupy organic, stumptown shabby chic pour-over roof party DIY normcore.'] },
-            { messages: ['Actually artisan organic occupy, Wes Anderson ugh whatever pour-over gastropub selvage.'] },
-            { from: 'Ioni Bowcher', url: 'assets/demo/images/avatar/ionibowcher.png', messages: ['Chillwave craft beer tote bag stumptown quinoa hashtag.'] },
-            { messages: ['Dreamcatcher locavore iPhone chillwave, occupy trust fund slow-carb distillery art party narwhal.', 'Sed ut perspiciatis unde omnis iste natus.'] },
-            { from: 'Ioni Bowcher', url: 'assets/demo/images/avatar/ionibowcher.png', messages: ['Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.'] },
-            { messages: ['At vero eos et accusamus.'] }
-        ];
+        this.cols = [
+            { header: 'Name', field: 'name' },
+            { header: 'Category', field: 'category' },
+            { header: 'Price', field: 'price' },
+            { header: 'Status', field: 'inventoryStatus' }
+        ]
 
-        this.chatEmojis = [
-            '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😇', '😉', '😊', '🙂', '🙃', '😋', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '🤪', '😜', '😝', '😛',
-            '🤑', '😎', '🤓', '🧐', '🤠', '🥳', '🤗', '🤡', '😏', '😶', '😐', '😑', '😒', '🙄', '🤨', '🤔', '🤫', '🤭', '🤥', '😳', '😞', '😟', '😠', '😡', '🤬', '😔',
-            '😟', '😠', '😡', '🤬', '😔', '😕', '🙁', '😬', '🥺', '😣', '😖', '😫', '😩', '🥱', '😤', '😮', '😱', '😨', '😰', '😯', '😦', '😧', '😢', '😥', '😪', '🤤'
-        ];
-        
         this.chartInit()
     }
 
@@ -148,31 +139,7 @@ export class DashboardGenericComponent implements OnInit {
         }
     }
 
-    onChatKeydown(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            const message = (<HTMLInputElement>event.currentTarget).value;
-            const lastMessage = this.chatMessages[this.chatMessages.length - 1];
-
-            if (lastMessage.from) {
-                this.chatMessages.push({ messages: [message] });
-            }
-            else {
-                lastMessage.messages.push(message);
-            }
-
-            if (message.match(/primeng|primereact|primefaces|primevue/i)) {
-                this.chatMessages.push({ from: 'Ioni Bowcher', url: 'assets/demo/images/avatar/ionibowcher.png', messages: ['Always bet on Prime!'] });
-            }
-
-            (<HTMLInputElement>event.currentTarget).value = '';
-
-            const el = this.chatContainerViewChild.nativeElement;
-            setTimeout(() => {
-                el.scroll({
-                    top: el.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 1);
-        }
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 }
