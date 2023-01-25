@@ -28,7 +28,7 @@ export class DashboardBankingComponent implements OnInit {
     subscription!: Subscription
 
 
-    constructor(private layoutService: LayoutService) {
+    constructor(public layoutService: LayoutService) {
         this.subscription = layoutService.configUpdate$.subscribe(config => {
             this.initChart()
         })
