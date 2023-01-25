@@ -45,7 +45,8 @@ export class DashboardBankingComponent implements OnInit {
             { name: 'Water Bill', amount: 45.50, paid: true, date: '07/04/2022' },
             { name: 'Gas Bill', amount: 45.20, paid: false, date: '12/04/2022' },
             { name: 'Internet Bill', amount: 25.90, paid: true, date: '17/04/2022' },
-            { name: 'Streaming', amount: 40.90, paid: false, date: '20/04/2022' }
+            { name: 'Streaming', amount: 40.90, paid: false, date: '20/04/2022' },
+            { name: 'Phone Bill', amount: 32.90, paid: false, date: '23/04/2022' }
         ]
 
         this.initChart();
