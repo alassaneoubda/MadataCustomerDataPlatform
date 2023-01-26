@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardGenericRoutingModule } from './dashboardgeneric-routing.module';
-import { DashboardGenericComponent } from './dashboardgeneric.component';
+import { DashboardEcommerceRoutingModule } from './dashboardecommerce-routing.module';
+import { DashboardEcommerceComponent } from './dashboardecommerce.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MenuModule } from 'primeng/menu';
@@ -13,7 +13,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
     imports: [
         CommonModule,
-        DashboardGenericRoutingModule,
+        DashboardEcommerceRoutingModule,
         ButtonModule,
         RippleModule,
         MenuModule,
@@ -23,7 +23,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
         OverlayPanelModule
     ],
     declarations: [
-        DashboardGenericComponent
+        DashboardEcommerceComponent
     ]
 })
-export class DashboardGenericModule { }
+export class DashboardEcommerceModule { }

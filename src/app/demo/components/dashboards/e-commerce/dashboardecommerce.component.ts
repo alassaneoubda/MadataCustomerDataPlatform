@@ -7,9 +7,9 @@ import { ProductService } from '../../../service/product.service';
 import { Table } from 'primeng/table';
 
 @Component({
-    templateUrl: './dashboardgeneric.component.html',
+    templateUrl: './dashboardecommerce.component.html',
 })
-export class DashboardGenericComponent implements OnInit {
+export class DashboardEcommerceComponent implements OnInit {
 
     products!: Product[];
 
