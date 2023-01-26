@@ -1,6 +1,15 @@
 :host ::ng-deep {
+    .fc-toolbar-chunk {
+        display: flex;
+
+        .fc-button-group > button {
+            display: flex;
+            align-items: center;
+        }
+    }
+
     .fc.fc-theme-standard .fc-highlight {
-        background-color: var(--primary-100)
+        background-color: var(--primary-100);
     }
 }
 
