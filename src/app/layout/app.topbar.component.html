@@ -1,4 +1,4 @@
-<div class="layout-topbar">
+<div class="layout-topbar" [ngClass]="{'border-bottom-none': layoutService.config.topbarTheme !== 'light'}">
     <div class="layout-topbar-start">
         <a class="layout-topbar-logo" routerLink="/">
             <svg width="100" viewBox="0 0 64 21" fill="none" xmlns="http://www.w3.org/2000/svg">
