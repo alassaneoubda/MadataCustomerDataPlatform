@@ -50,6 +50,7 @@ export class DashboardEcommerceComponent implements OnInit {
 
     chartInit() {
         const textColor = getComputedStyle(document.body).getPropertyValue('--text-color') || 'rgba(0, 0, 0, 0.87)';
+        const surface300 = getComputedStyle(document.body).getPropertyValue('--surface-300');
 
         this.items = [
             {
@@ -115,6 +116,9 @@ export class DashboardEcommerceComponent implements OnInit {
                 y: {
                     max: 100,
                     min: 0,
+                    grid: {
+                        color: surface300
+                    },
                     ticks: {
                         color: textColor
                     }
@@ -122,6 +126,7 @@ export class DashboardEcommerceComponent implements OnInit {
                 x: {
                     grid: {
                         display: true,
+                        color: surface300
                     },
                     ticks: {
                         color: textColor,
