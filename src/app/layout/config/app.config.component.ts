@@ -122,12 +122,6 @@ export class AppConfigComponent implements OnInit {
         this.menuThemes = [
             { name: 'light', color: '#ffffff' },
             { name: 'dark', color: '#212529' },
-            { name: 'indigo', color: '#6610f2' },
-            { name: 'cyan', color: '#0dcaf0' },
-            { name: 'green', color: '#198754' },
-            { name: 'pink', color: '#d63384' },
-            { name: 'purple', color: '#6f42c1' },
-            { name: 'teal', color: '#20c997' }
         ];
 
         this.topbarThemes = [
