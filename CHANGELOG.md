@@ -1,7 +1,4 @@
 # Changelog
-## 15.0.1
-**Fixed bugs:**
-- Fixed image paths.
 
 ## 15.0.0
 **Migration Guide**
