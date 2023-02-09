@@ -96,7 +96,7 @@
 
 **Implemented New Features and Enhancements:**
 
-- Implemented new Ultima design
+- Implemented new Avalon design
 - Added dark mode, topbar and menu colors
 
 ## 10.0.1
