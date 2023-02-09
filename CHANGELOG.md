@@ -1,18 +1,9 @@
 # Changelog
-## 15.0.1
-**Fixed bugs:**
-- Fixed image paths.
 
 ## 15.0.0
-**Migration Guide**
-- Upgrade to PrimeNG 15
-- Upgrade to Angular 15
-
 **Implemented New Features and Enhancements:**
 - Update to PrimeNG 15
 - Update to Angular 15
-
-## 14.1.0
 - Migrated to NextGen implementation.
 - New sample apps
 - New sample pages
