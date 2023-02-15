@@ -196,15 +196,26 @@ export class AppConfigComponent implements OnInit {
     }
 
     changeScene(item: any) {
-        this.changeTheme(item.componentTheme)
-        setTimeout(() => {
-            this.changeColorScheme(item.colorScheme);
-            this.changeMenuTheme(item.menuTheme)
-            this.changeTopbarTheme(item.topbarTheme)
-            this.menuMode = item.menuMode
-            this.selectedScene = item.sceneName
-        }, 100);
+        this.replaceScene(item.colorScheme, item.componentTheme)
+        this.changeMenuTheme(item.menuTheme)
+        this.changeTopbarTheme(item.topbarTheme)
+        this.menuMode = item.menuMode
+        this.selectedScene = item.sceneName
+    }
 
+    replaceScene(colorScheme: string, componentTheme: string) {
+        const id = 'theme-link';
+        const themeLink = <HTMLLinkElement>document.getElementById(id);
+        const themeLinkHref = themeLink.getAttribute('href');
+
+        let newHref = themeLinkHref!.replace(this.layoutService.config.colorScheme, colorScheme);
+        newHref = newHref.replace(this.layoutService.config.componentTheme, componentTheme)
+
+        themeLink.setAttribute('href', newHref)
+
+        this.layoutService.config.componentTheme = componentTheme;
+        this.layoutService.config.colorScheme = colorScheme;
+        this.layoutService.onConfigUpdate();
     }
 
 }
