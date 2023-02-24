@@ -5,6 +5,7 @@ import { LandingComponent } from './landing.component';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
+import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import { InputTextModule } from 'primeng/inputtext';
         LandingRoutingModule,
         ButtonModule,
         RippleModule,
-        InputTextModule
+        InputTextModule,
+        AppConfigModule,
     ],
     declarations: [LandingComponent]
 })
