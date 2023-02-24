@@ -1,17 +1,3 @@
-:host ::ng-deep {
-    .fc-toolbar-chunk {
-        display: flex;
-
-        .fc-button-group > button {
-            display: flex;
-            align-items: center;
-        }
-    }
-
-    .fc.fc-theme-standard .fc-highlight {
-        background-color: var(--surface-200);
-    }
-}
 
 @media screen and (max-width: 768px) {
     :host ::ng-deep {
