@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuService } from '../app.menu.service';
-import { LayoutService } from '../service/app.layout.service';
+import { ColorScheme, LayoutService, MenuMode } from '../service/app.layout.service';
 
 @Component({
     selector: 'app-config',
@@ -40,11 +40,11 @@ export class AppConfigComponent implements OnInit {
         this.layoutService.config.scale = _val;
     }
 
-    get menuMode(): string {
+    get menuMode(): MenuMode {
         return this.layoutService.config.menuMode;
     }
 
-    set menuMode(_val: string) {
+    set menuMode(_val: MenuMode) {
         this.selectedScene = ''
         this.layoutService.config.menuMode = _val;
         if (this.layoutService.isSlimPlus() || this.layoutService.isSlim() || this.layoutService.isHorizontal()) {
@@ -63,11 +63,11 @@ export class AppConfigComponent implements OnInit {
         }
     }
 
-    get colorScheme(): string {
+    get colorScheme(): ColorScheme {
         return this.layoutService.config.colorScheme;
     }
 
-    set colorScheme(_val: string) {
+    set colorScheme(_val: ColorScheme) {
         this.selectedScene = ''
         this.changeColorScheme(_val);
         if (_val === 'dark' && this.componentTheme === 'black') {
@@ -154,7 +154,7 @@ export class AppConfigComponent implements OnInit {
         this.layoutService.showConfigSidebar();
     }
 
-    changeColorScheme(colorScheme: string) {
+    changeColorScheme(colorScheme: ColorScheme) {
         if (this.selectedScene) this.selectedScene = ''
         this.layoutService.onColorSchemeChange(colorScheme);
     }
@@ -175,7 +175,7 @@ export class AppConfigComponent implements OnInit {
         this.layoutService.onConfigUpdate();
     }
 
-    changeMenuTheme(theme: string) {
+    changeMenuTheme(theme: ColorScheme) {
         if (this.selectedScene) this.selectedScene = ''
         this.layoutService.config.menuTheme = theme;
         this.layoutService.onConfigUpdate();
@@ -203,7 +203,7 @@ export class AppConfigComponent implements OnInit {
         this.selectedScene = item.sceneName
     }
 
-    replaceScene(colorScheme: string, componentTheme: string) {
+    replaceScene(colorScheme: ColorScheme, componentTheme: string) {
         const id = 'theme-link';
         const themeLink = <HTMLLinkElement>document.getElementById(id);
         const themeLinkHref = themeLink.getAttribute('href');
