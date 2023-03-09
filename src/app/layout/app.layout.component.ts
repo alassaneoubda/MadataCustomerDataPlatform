@@ -156,9 +156,11 @@ export class AppLayoutComponent implements OnDestroy {
             'layout-overlay': this.layoutService.config.menuMode === 'overlay',
             'layout-static': this.layoutService.config.menuMode === 'static',
             'layout-slim': this.layoutService.config.menuMode === 'slim',
+            'layout-slim-plus': this.layoutService.config.menuMode === 'slim-plus',
             'layout-sidebar': this.layoutService.config.menuMode === 'sidebar',
             'layout-horizontal': this.layoutService.config.menuMode === 'horizontal',
             'layout-reveal': this.layoutService.config.menuMode === 'reveal',
+            'layout-drawer': this.layoutService.config.menuMode === 'drawer',
             'p-input-filled': this.layoutService.config.inputStyle === 'filled',
             'p-ripple-disabled': !this.layoutService.config.ripple,
             'layout-static-inactive': this.layoutService.state.staticMenuDesktopInactive && this.layoutService.config.menuMode === 'static',
@@ -166,8 +168,8 @@ export class AppLayoutComponent implements OnDestroy {
             'layout-mobile-active': this.layoutService.state.staticMenuMobileActive,
             'layout-topbar-menu-active': this.layoutService.state.topbarMenuActive,
             'layout-menu-profile-active': this.layoutService.state.menuProfileActive,
-            'layout-reveal-active': this.layoutService.state.revealMenuActive,
-            'layout-reveal-anchored': this.layoutService.state.anchored
+            'layout-sidebar-active': this.layoutService.state.sidebarActive,
+            'layout-sidebar-anchored': this.layoutService.state.anchored
         };
 
         styleClass['layout-topbar-' + this.layoutService.config.topbarTheme] = true;

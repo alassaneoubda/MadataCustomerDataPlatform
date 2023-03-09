@@ -47,7 +47,7 @@ export class AppConfigComponent implements OnInit {
     set menuMode(_val: string) {
         this.selectedScene = ''
         this.layoutService.config.menuMode = _val;
-        if (this.layoutService.isSlim() || this.layoutService.isHorizontal()) {
+        if (this.layoutService.isSlimPlus() || this.layoutService.isSlim() || this.layoutService.isHorizontal()) {
             this.menuService.reset();
         }
     }
