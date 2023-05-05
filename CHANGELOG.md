@@ -1,5 +1,9 @@
 # Changelog
 
+# 15.1.1
+
+- Update themes
+
 # 15.1.0
 
 - General style adjustments
