@@ -1,5 +1,10 @@
 # Changelog
 
+# 16.0.0
+**Implemented New Features and Enhancements:**
+- Upgrade to PrimeNG 16
+- Upgrade to Angular 16
+
 # 15.1.1
 
 - Update themes
