@@ -11,7 +11,7 @@ $colors: (
     "purple": #6f42c1,
     "red": #DC3545,
     "primary": $primaryColor
-) !default;
+);
 
 //reused color variables
 $shade000:#ffffff !default;              //surface
@@ -95,6 +95,8 @@ $inputListItemBg:transparent !default;
 $inputListItemTextColor:$shade900 !default;
 $inputListItemHoverBg:$shade200 !default;
 $inputListItemTextHoverColor:$shade900 !default;
+$inputListItemFocusBg:$shade300 !default;
+$inputListItemTextFocusColor:$shade900 !default;
 $inputListItemBorder:0 none !default;
 $inputListItemBorderRadius:0 !default;
 $inputListItemMargin:0 !default;
@@ -418,7 +420,10 @@ $tabviewContentPadding:$panelContentPadding !default;
 
 //upload
 $fileUploadProgressBarHeight:.25rem !default;
-$fileUploadContentPadding:2rem 1rem !default;
+$fileUploadContentPadding: 2rem 1rem !default;
+$fileUploadContentHoverBorder: 1px dashed $primaryColor !default;
+$fileUploadFileBorder: 1px solid $shade300 !default;
+$fileUploadFilePadding: 1rem !default;
 
 //scrollpanel
 $scrollPanelTrackBorder:0 none !default;
@@ -630,12 +635,18 @@ $stepsItemNumberColor:$shade900 !default;
 $stepsItemNumberBorderRadius:$borderRadius !default;
 $stepsItemActiveFontWeight:600 !default;
 
-//progressbar
+//progressbar, progressspinner
 $progressBarHeight:1.5rem !default;
 $progressBarBorder:0 none !default;
 $progressBarBg:$shade200 !default;
 $progressBarValueBg:$primaryColor !default;
 $progressBarValueTextColor:$primaryTextColor !default;
+
+$progressSpinnerStrokeColor:$errorMessageTextColor !default;
+$progressSpinnerColorOne:$errorMessageTextColor !default;
+$progressSpinnerColorTwo:$infoMessageTextColor !default;
+$progressSpinnerColorThree:$successMessageTextColor !default;
+$progressSpinnerColorFour:$warningMessageTextColor !default;
 
 //menu (e.g. menu, menubar, tieredmenu)
 $menuWidth:12.5rem !default;
@@ -649,9 +660,13 @@ $menuitemIconColor:$shade900 !default;
 $menuitemTextHoverColor:$shade900 !default;
 $menuitemIconHoverColor:$shade900 !default;
 $menuitemHoverBg:$shade200 !default;
+$menuitemTextFocusColor:$shade900 !default;
+$menuitemIconFocusColor:$shade900 !default;
+$menuitemFocusBg:$shade300 !default;
 $menuitemTextActiveColor:$shade900 !default;
 $menuitemIconActiveColor:$shade900 !default;
 $menuitemActiveBg:$shade200 !default;
+$menuitemActiveFocusBg:$shade200 !default;
 $menuitemSubmenuIconFontSize:.875rem !default;
 $submenuHeaderMargin:0 !default;
 $submenuHeaderPadding:.75rem 1rem !default;
@@ -663,7 +678,6 @@ $overlayMenuBg:$menuBg !default;
 $overlayMenuBorder:1px solid rgba(0,0,0,.15) !default;
 $overlayMenuShadow:none !default;
 $verticalMenuPadding:.5rem 0 !default;
-$verticalMenuitemMargin:0 !default;
 $menuSeparatorMargin:.5rem 0 !default;
 
 $breadcrumbPadding:1rem !default;
@@ -770,6 +784,8 @@ $avatarTextColor:$textColor !default;
 $chipBg:$shade300 !default;
 $chipTextColor:$textColor !default;
 $chipBorderRadius: 16px !default;
+$chipFocusBg:$shade400 !default;
+$chipFocusTextColor:$textColor !default;
 
 //scrollTop
 $scrollTopBg:rgba(0,0,0,0.7) !default;
@@ -803,6 +819,7 @@ $speedDialActionTextHoverColor: #fff !default;
 $dockActionWidth: 4rem !default;
 $dockActionHeight: 4rem !default;
 $dockItemPadding: .5rem !default;
+$dockItemBorderRadius: $borderRadius !default;
 $dockCurrentItemMargin: 1.5rem !default;
 $dockFirstItemsMargin: 1.3rem !default;
 $dockSecondItemsMargin: 0.9rem !default;
@@ -826,6 +843,8 @@ $imagePreviewActionIconFontSize:1.5rem !default;
 $imagePreviewActionIconBorderRadius:50% !default;
 
 :root {
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --surface-a:#{$shade000};
     --surface-b:#{$shade100};
     --surface-c:#{$shade200};
@@ -836,7 +855,6 @@ $imagePreviewActionIconBorderRadius:50% !default;
     --text-color-secondary:#{$shade600};
     --primary-color:#{$primaryColor};
     --primary-color-text:#{$primaryTextColor};
-    --font-family:#{$fontFamily};
     --surface-0: #ffffff;
     --surface-50: #f9fafb;
     --surface-100: #f8f9fa;
@@ -867,7 +885,9 @@ $imagePreviewActionIconBorderRadius:50% !default;
     --surface-overlay:#ffffff;
     --surface-border:#dee2e6;
     --surface-hover:#e9ecef;
-    --maskbg: #{$maskBg};
     --focus-ring: #{$focusShadow};
+    --maskbg: #{$maskBg};
+    --highlight-bg: #{$highlightBg};
+    --highlight-text-color: #{$highlightTextColor};
     color-scheme: light;
 }

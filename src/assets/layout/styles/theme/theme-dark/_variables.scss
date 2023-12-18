@@ -11,13 +11,14 @@ $colors: (
     "purple": #6f42c1,
     "red": #DC3545,
     "primary": $primaryColor
-) !default;
+);
 
 //shades
 $shade000:rgba(255,255,255,.87) !default;  //text color
 $shade100:rgba(255,255,255,.60) !default;  //text secondary color
 $shade200:#7789a1 !default;
 $shade300:#687c97 !default;
+$shade500:#525d6c !default;
 $shade600:#3f4b5b !default;  //input bg, border, divider
 $shade700:#343e4d !default;
 $shade800:#2a323d !default;  //elevated surface
@@ -95,6 +96,8 @@ $inputListItemBg:transparent !default;
 $inputListItemTextColor:$shade000 !default;
 $inputListItemHoverBg:$hoverBg !default;
 $inputListItemTextHoverColor:$shade000 !default;
+$inputListItemFocusBg:rgba(255,255,255,.12) !default;
+$inputListItemTextFocusColor:$shade000 !default;
 $inputListItemBorder:0 none !default;
 $inputListItemBorderRadius:0 !default;
 $inputListItemMargin:0 !default;
@@ -418,7 +421,10 @@ $tabviewContentPadding:$panelContentPadding !default;
 
 //upload
 $fileUploadProgressBarHeight:.25rem !default;
-$fileUploadContentPadding:2rem 1rem !default;
+$fileUploadContentPadding: 2rem 1rem !default;
+$fileUploadContentHoverBorder: 1px dashed $primaryColor !default;
+$fileUploadFileBorder: 1px solid $shade600 !default;
+$fileUploadFilePadding: 1rem !default;
 
 //scrollpanel
 $scrollPanelTrackBorder:0 none !default;
@@ -532,9 +538,9 @@ $fullCalendarEventTextColor:$primaryTextColor !default;
 //tree
 $treeContainerPadding:0.286rem !default;
 $treeNodePadding:0.143rem !default;
-$treeNodeContentPadding:.286rem !default;
+$treeNodeContentPadding:0.286rem !default;
 $treeNodeChildrenPadding:0 0 0 1rem !default;
-$treeNodeIconColor:$shade100 !default;
+$treeNodeIconColor:$shade600 !default;
 
 //timeline
 $timelineVerticalEventContentPadding:0 1rem !default;
@@ -630,12 +636,18 @@ $stepsItemNumberColor:$shade000 !default;
 $stepsItemNumberBorderRadius:$borderRadius !default;
 $stepsItemActiveFontWeight:600 !default;
 
-//progressbar
+//progressbar, progressspinner
 $progressBarHeight:1.5rem !default;
 $progressBarBorder:0 none !default;
 $progressBarBg:$shade600 !default;
 $progressBarValueBg:$primaryColor !default;
 $progressBarValueTextColor:$primaryTextColor !default;
+
+$progressSpinnerStrokeColor:$errorMessageTextColor !default;
+$progressSpinnerColorOne:$errorMessageTextColor !default;
+$progressSpinnerColorTwo:$infoMessageTextColor !default;
+$progressSpinnerColorThree:$successMessageTextColor !default;
+$progressSpinnerColorFour:$warningMessageTextColor !default;
 
 //menu (e.g. menu, menubar, tieredmenu)
 $menuWidth:12.5rem !default;
@@ -649,9 +661,13 @@ $menuitemIconColor:$shade100 !default;
 $menuitemTextHoverColor:$shade000 !default;
 $menuitemIconHoverColor:$shade000 !default;
 $menuitemHoverBg:$hoverBg !default;
+$menuitemTextFocusColor:$shade000 !default;
+$menuitemIconFocusColor:$shade000 !default;
+$menuitemFocusBg:rgba(255,255,255,.12) !default;
 $menuitemTextActiveColor:$shade000 !default;
 $menuitemIconActiveColor:$shade000 !default;
 $menuitemActiveBg:$shade900 !default;
+$menuitemActiveFocusBg:$shade900 !default;
 $menuitemSubmenuIconFontSize:.875rem !default;
 $submenuHeaderMargin:0 !default;
 $submenuHeaderPadding:.75rem 1rem !default;
@@ -663,7 +679,6 @@ $overlayMenuBg:$menuBg !default;
 $overlayMenuBorder:1px solid $shade600 !default;
 $overlayMenuShadow:none !default;
 $verticalMenuPadding:.5rem 0 !default;
-$verticalMenuitemMargin:0 !default;
 $menuSeparatorMargin:.5rem 0 !default;
 
 $breadcrumbPadding:1rem !default;
@@ -770,6 +785,8 @@ $avatarTextColor:$textColor !default;
 $chipBg:$shade600 !default;
 $chipTextColor:$textColor !default;
 $chipBorderRadius: 16px !default;
+$chipFocusBg:$shade500 !default;
+$chipFocusTextColor:$textColor !default;
 
 //scrollTop
 $scrollTopBg:$primaryColor !default;
@@ -803,6 +820,7 @@ $speedDialActionTextHoverColor: #fff !default;
 $dockActionWidth: 4rem !default;
 $dockActionHeight: 4rem !default;
 $dockItemPadding: .5rem !default;
+$dockItemBorderRadius:$borderRadius !default;
 $dockCurrentItemMargin: 1.5rem !default;
 $dockFirstItemsMargin: 1.3rem !default;
 $dockSecondItemsMargin: 0.9rem !default;
@@ -826,6 +844,8 @@ $imagePreviewActionIconFontSize:1.5rem !default;
 $imagePreviewActionIconBorderRadius:50% !default;
 
 :root {
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" ;
+    --font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" ;
     --surface-a:#{$shade800};
     --surface-b:#{$shade900};
     --surface-c:#{$hoverBg};
@@ -836,7 +856,6 @@ $imagePreviewActionIconBorderRadius:50% !default;
     --text-color-secondary:#{$shade100};
     --primary-color:#{$primaryColor};
     --primary-color-text:#{$primaryTextColor};
-    --font-family:#{$fontFamily};
     --surface-0: #20262e;
     --surface-50: #363c43;
     --surface-100: #4d5158;
@@ -867,7 +886,9 @@ $imagePreviewActionIconBorderRadius:50% !default;
     --surface-overlay:#2a323d;
     --surface-border:#3f4b5b;
     --surface-hover:rgba(255,255,255,.04);
-    --maskbg: #{$maskBg};
     --focus-ring: #{$focusShadow};
+    --maskbg: #{$maskBg};
+    --highlight-bg: #{$highlightBg};
+    --highlight-text-color: #{$highlightTextColor};
     color-scheme: dark;
 }
