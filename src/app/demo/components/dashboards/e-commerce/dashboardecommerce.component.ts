@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
-import { AppConfig, LayoutService } from 'src/app/layout/service/app.layout.service';
+import {
+    AppConfig,
+    LayoutService,
+} from 'src/app/layout/service/app.layout.service';
 import { ProductService } from '../../../service/product.service';
 import { Table } from 'primeng/table';
 
@@ -10,14 +13,13 @@ import { Table } from 'primeng/table';
     templateUrl: './dashboardecommerce.component.html',
 })
 export class DashboardEcommerceComponent implements OnInit {
-
     products!: Product[];
 
     chartData: any;
 
     chartOptions: any;
 
-    config!: AppConfig
+    config: AppConfig = this.layoutService.config();
 
     items!: MenuItem[];
 
@@ -27,39 +29,49 @@ export class DashboardEcommerceComponent implements OnInit {
 
     @ViewChild('chatcontainer') chatContainerViewChild!: ElementRef;
 
-
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe(config => {
-            this.config = config;
-            this.chartInit()
-        });
+    constructor(
+        private productService: ProductService,
+        public layoutService: LayoutService
+    ) {
+        this.subscription = this.layoutService.configUpdate$
+            .pipe(debounceTime(25))
+            .subscribe((config) => {
+                this.chartInit();
+            });
     }
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
+        this.productService
+            .getProducts()
+            .then((data) => (this.products = data));
 
         this.cols = [
             { header: 'Name', field: 'name' },
             { header: 'Category', field: 'category' },
             { header: 'Price', field: 'price' },
-            { header: 'Status', field: 'inventoryStatus' }
-        ]
+            { header: 'Status', field: 'inventoryStatus' },
+        ];
 
-        this.chartInit()
+        this.chartInit();
     }
 
     chartInit() {
-        const textColor = getComputedStyle(document.body).getPropertyValue('--text-color') || 'rgba(0, 0, 0, 0.87)';
-        const surface300 = getComputedStyle(document.body).getPropertyValue('--surface-300');
+        const textColor =
+            getComputedStyle(document.body).getPropertyValue('--text-color') ||
+            'rgba(0, 0, 0, 0.87)';
+        const surface300 = getComputedStyle(document.body).getPropertyValue(
+            '--surface-300'
+        );
 
         this.items = [
             {
                 label: 'Options',
                 items: [
                     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-                    { label: 'Search', icon: 'pi pi-fw pi-search' }
-                ]
-            }];
+                    { label: 'Search', icon: 'pi pi-fw pi-search' },
+                ],
+            },
+        ];
 
         this.chartData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
@@ -74,7 +86,7 @@ export class DashboardEcommerceComponent implements OnInit {
                     pointBorderWidth: 0,
                     pointStyle: 'line',
                     fill: false,
-                    tension: .4
+                    tension: 0.4,
                 },
                 {
                     label: 'Completed',
@@ -86,7 +98,7 @@ export class DashboardEcommerceComponent implements OnInit {
                     pointBorderWidth: 0,
                     pointStyle: 'line',
                     fill: false,
-                    tension: .4
+                    tension: 0.4,
                 },
                 {
                     label: 'Canceled',
@@ -98,9 +110,9 @@ export class DashboardEcommerceComponent implements OnInit {
                     pointBorderWidth: 0,
                     pointStyle: 'line',
                     fill: true,
-                    tension: .4
-                }
-            ]
+                    tension: 0.4,
+                },
+            ],
         };
 
         this.chartOptions = {
@@ -108,32 +120,32 @@ export class DashboardEcommerceComponent implements OnInit {
                 legend: {
                     fill: true,
                     labels: {
-                        color: textColor
-                    }
-                }
+                        color: textColor,
+                    },
+                },
             },
             scales: {
                 y: {
                     max: 100,
                     min: 0,
                     grid: {
-                        color: surface300
+                        color: surface300,
                     },
                     ticks: {
-                        color: textColor
-                    }
+                        color: textColor,
+                    },
                 },
                 x: {
                     grid: {
                         display: true,
-                        color: surface300
+                        color: surface300,
                     },
                     ticks: {
                         color: textColor,
                         beginAtZero: true,
-                    }
-                }
-            }
+                    },
+                },
+            },
         };
     }
 
@@ -145,6 +157,9 @@ export class DashboardEcommerceComponent implements OnInit {
     }
 
     onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+        table.filterGlobal(
+            (event.target as HTMLInputElement).value,
+            'contains'
+        );
     }
 }
