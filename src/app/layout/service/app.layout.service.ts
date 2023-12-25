@@ -225,38 +225,6 @@ export class LayoutService {
             cloneLinkElement.setAttribute('id', id);
         });
     }
-    // replaceThemeLink(href: string, onComplete: Function) {
-    //     const id = 'theme-link';
-    //     const themeLink = <HTMLLinkElement>document.getElementById(id);
-    //     const cloneLinkElement = <HTMLLinkElement>themeLink.cloneNode(true);
-
-    //     cloneLinkElement.setAttribute('href', href);
-    //     cloneLinkElement.setAttribute('id', id + '-clone');
-
-    //     themeLink.parentNode!.insertBefore(cloneLinkElement, themeLink.nextSibling);
-
-    //     cloneLinkElement.addEventListener('load', () => {
-    //         themeLink.remove();
-    //         cloneLinkElement.setAttribute('id', id);
-    //         onComplete();
-    //     });
-    // }
-
-    // onColorSchemeChange(colorScheme: ColorScheme) {
-    //     const themeLink = <HTMLLinkElement>document.getElementById('theme-link');
-    //     const themeLinkHref = themeLink.getAttribute('href');
-    //     const currentColorScheme = 'theme-' + this.config().colorScheme;
-    //     const newColorScheme = 'theme-' + colorScheme;
-    //     const newHref = themeLinkHref!.replace(currentColorScheme, newColorScheme);
-    //     this.replaceThemeLink(newHref, () => {
-    //         this.config().colorScheme = colorScheme;
-    //         if (colorScheme === 'dark') {
-    //             this.config().menuTheme = 'dark';
-    //         }
-    //         this.onConfigUpdate();
-    //     });
-
-    // }
 
     changeScale(value: number) {
         document.documentElement.style.fontSize = `${value}px`;
