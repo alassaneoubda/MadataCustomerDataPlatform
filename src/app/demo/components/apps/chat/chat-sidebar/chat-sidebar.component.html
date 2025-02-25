@@ -1,13 +1,119 @@
-<div class="flex flex-column align-items-center border-bottom-1 surface-border p-6">
-    <img src="assets/demo/images/avatar/circle/avatar-f-1@2x.png" class="w-6rem h-6rem border-circle shadow-4" alt="Asiya Javayant">
-    <span class="text-900 text-xl font-semibold mt-4">Asiya Javayant</span>
+<div>
+    <p-fieldset legend="Suivi des événements utilisateurs" styleClass="custom-fieldset">
+        <ng-template pTemplate="header">
+            <div class="fieldset-header">
+                <div class="header-description font-bold">
+                    <h3>
+                        Cette section présente un aperçu des événements réalisés par les utilisateurs sur la plateforme.
+                        Vous y trouverez des informations détaillées sur leurs interactions, ce qui vous permet
+                        d'analyser leur engagement et d'ajuster vos actions en conséquence. Toutes les données sont
+                        présentées de manière claire pour faciliter le suivi et l'optimisation de l'expérience utilisateur.
+                    </h3>
+                </div>
+            </div>
+        </ng-template>
+        <!-- Graphique -->
+        <div>
+            <p-chart type="line" [data]="data" [options]="options" class="h-[30rem]"></p-chart>
+        </div>
+
+        <!-- Slider pour filtrer les événements -->
+        
+    </p-fieldset>
 </div>
-<div class="w-full flex row-gap-4 flex-column surface-border p-4">
-    <span class="p-input-icon-left w-full">
-        <i class="pi pi-search"></i>
-        <input id="search" type="text" pInputText placeholder="Search" class="w-full" [(ngModel)]="searchValue" (input)="filter()"/>
-    </span>
-    <div class="flex flex-row gap-4 md:flex-column overflow-auto">
-        <app-user-card *ngFor="let user of filteredUsers" [user]="user"></app-user-card>
+
+<div class="card">
+    <div class="p-fluid p-formgrid grid flex">
+        <div class="field col-12 md:col-9">
+            <span class="p-input-icon-right">
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchTerm" />
+                <i class="pi pi-search"></i>
+            </span>
+        </div>
+        <div class="field col-12 md:col-3">
+            <p-button label="Rechercher un événement" icon="pi pi-plus" severity="success" (click)="filterEvents()" />
+        </div>
+    </div>
+    <div class="container">
+        <!-- Skeleton loader -->
+        <div class="cards-container" *ngIf="loading">
+            <div class="event-card" *ngFor="let item of [1, 2, 3]">
+                <!-- En-tête de la carte -->
+                <div class="card-header">
+                    <h2 class="skeleton-text"></h2>
+                    <span class="event-type skeleton-badge"></span>
+                </div>
+
+                <!-- Informations principales -->
+                <div class="info-section">
+                    <h3 class="skeleton-text"></h3>
+                    <table class="info-table">
+                        <tr *ngFor="let i of [1, 2, 3, 4]">
+                            <td class="label skeleton-cell"></td>
+                            <td class="skeleton-cell"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu réel -->
+        <div class="cards-container" *ngIf="!loading && filteredEvents.length > 0">
+            <div class="event-card" *ngFor="let event of filteredEvents">
+                <div class="card-header">
+                    <h2>Événement</h2>
+                    <span class="event-type">{{ event.eventType }}</span>
+                </div>
+
+                <div class="info-section">
+                    <h3>Informations Principales</h3>
+                    <table class="info-table">
+                        <tr *ngIf="event.profileId">
+                            <td class="label">Identifiant du Profile :</td>
+                            <td>{{ event.profileId }}</td>
+                        </tr>
+                        <tr *ngIf="event.eventType">
+                            <td class="label">Type d'Événement :</td>
+                            <td>{{ event.eventType }}</td>
+                        </tr>
+                        <tr *ngIf="event.sessionId">
+                            <td class="label">Identifiant de la Session :</td>
+                            <td>{{ event.sessionId }}</td>
+                        </tr>
+                        <tr *ngIf="event.scope">
+                            <td class="label">Scope :</td>
+                            <td>{{ event.scope }}</td>
+                        </tr>
+                        <tr *ngIf="event.properties">
+                            <td class="label">properties :</td>
+                            <td>
+                                <div *ngIf="event.properties.email">Email : {{ event.properties.email }}</div>
+                                <div *ngIf="event.properties.firstName">Prénom : {{ event.properties.firstName }}</div>
+                                <div *ngIf="event.properties.lastName">Nom : {{ event.properties.lastName }}</div>
+                            </td>                        </tr>
+
+                        <tr *ngIf="event.source">
+                            <td class="label">Source :</td>
+                            <td>
+                                <div *ngIf="event.source.customItemType">Type d'élément : {{ event.source.customItemType }}</div>
+                                <div *ngIf="event.source.itemId">Identifiant de l'élément : {{ event.source.itemId }}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="event.target">
+                            <td class="label">Target :</td>
+                            <td>
+                                <div *ngIf="event.target.customItemType">Type d'élément : {{ event.target.customItemType }}</div>
+                                <div *ngIf="event.target.itemId">Identifiant de l'élément : {{ event.target.itemId }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-data" *ngIf="!loading && filteredEvents.length === 0">
+            <i class="pi pi-info-circle"></i>
+            <p>Aucun événement disponible</p>
+        </div>
     </div>
 </div>

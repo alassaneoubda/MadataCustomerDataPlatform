@@ -1,81 +1,351 @@
-<div class="card">
-    <p-dataView [value]="totalBlogs" [paginator]="true" [rows]="3" filterBy="title" [sortField]="sortField" [sortOrder]="-1" layout="grid">
-        <ng-template pTemplate="header">
-            <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between gap-3">
-                <span class="text-xl text-900 font-semibold">Articles</span>
-                <p-dropdown [options]="sortOptions" [(ngModel)]="sortField" placeholder="Sort by" styleClass="w-full md:w-15rem"></p-dropdown>
-            </div>
-        </ng-template>
-        
-        <ng-template let-blogs pTemplate="gridItem">
-            <div class="grid grid-nogutter">
-                <div class="col-12 md:col-4" *ngFor="let blog of blogs">
-                    <app-blog-list-card [blog]="blog"></app-blog-list-card>
-                </div>
-            </div>
-        </ng-template>
-    </p-dataView>
-</div>
-
-<div class="card">
-    <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
-        <div class="font-bold text-5xl text-900 mb-3">Recent Articles</div>
-        <div class="text-700 text-xl line-height-3 mb-5">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-        <div class="grid nogutter">
-            <div class="col-12 lg:col-4 p-4">
-                <div class="border-top-3 border-blue-600"></div>
-                <div class="text-blue-600 font-medium my-2">Animals</div>
-                <div class="text-900 font-medium text-xl line-height-3 mb-4">Why Earth's most beloved creatures are headed toward extinction</div>
-                <div class="font-sm text-700 line-height-3">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                </div>
-                <div class="flex mt-4">
-                    <p-avatar image="assets/demo/images/avatar/circle/avatar-f-1.png" shape="circle"></p-avatar>
-                    <div class="ml-2">
-                        <div class="text-xs font-bold text-900 mb-1">Anna Miles</div>
-                        <div class="text-xs flex align-items-center text-700">
-                            <i class="pi pi-calendar mr-1 text-xs"></i>
-                            <span>Apr 9, 2021</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 lg:col-4 p-4">
-                <div class="border-top-3 border-pink-600"></div>
-                <div class="text-pink-600 font-medium my-2">Oxygen</div>
-                <div class="text-900 font-medium text-xl line-height-3 mb-4">Only one-third of tropical rainforests remain intact, study says </div>
-                <div class="font-sm text-700 line-height-3">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                </div>
-                <div class="flex mt-4">
-                    <p-avatar image="assets/demo/images/avatar/circle/avatar-f-2.png" shape="circle"></p-avatar>
-                    <div class="ml-2">
-                        <div class="text-xs font-bold text-900 mb-1">Arlene Miles</div>
-                        <div class="text-xs flex align-items-center text-700">
-                            <i class="pi pi-calendar mr-1 text-xs"></i>
-                            <span>Apr 9, 2021</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 lg:col-4 p-4">
-                <div class="border-top-3 border-orange-600"></div>
-                <div class="text-orange-600 font-medium my-2">Nature</div>
-                <div class="text-900 font-medium text-xl line-height-3 mb-4">Does planting a tree really offset your carbon footprint?</div>
-                <div class="font-sm text-700 line-height-3">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                </div>
-                <div class="flex mt-4">
-                    <p-avatar image="assets/demo/images/avatar/circle/avatar-f-3.png" shape="circle"></p-avatar>
-                    <div class="ml-2">
-                        <div class="text-xs font-bold text-900 mb-1">Diane Miles</div>
-                        <div class="text-xs flex align-items-center text-700">
-                            <i class="pi pi-calendar mr-1 text-xs"></i>
-                            <span>Apr 9, 2021</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div>
+    
+  <p-fieldset legend="Gestion des segments" class="segment-fieldset">
+    
+      <div class="p-fluid p-formgrid grid flex">
+        <div class="field col-12 md:col-9">
+            <span class="p-input-icon-right">
+                <input type="text" pInputText placeholder="Search" />
+                <i class="pi pi-search"></i>
+            </span>
+        </div>
+        <div class="field col-12 md:col-3">
+          <p-button label="Creer Un Segement" icon="pi pi-plus" severity="success" (click)="segmentcreation()"  />
         </div>
     </div>
+    <div class="container">
+      <div  *ngFor="let segment of segments" class="card scope-card"  (click)="showSegmentDetails(segment)" >
+        <div class="indicator status-indicator"></div>
+        <div >
+          <div class="details scope-details" >
+            <strong>{{ segment.name }}</strong>
+            <p>{{ segment.description }}</p>
+          </div>
+        </div>       
+        <div class="scope-actions">
+          <button class="delete-button" pButton type="button" icon="pi pi-trash" (click)="deleteSegment(segment.id)"></button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <p-dialog 
+    header="Créer un Segment" 
+    [(visible)]="sidebarVisible" 
+    [modal]="true" 
+    showEffect="fade" 
+    class="custom-dialog"
+    [style]="{'width': '800px', 'max-width': '90vw' , 'length': '500px'} ">
+    
+    <!-- Contenu principal -->
+    <ng-template pTemplate="content" class="p-fluid p-formgrid grid flex">
+     
+      
+    <!-- Nom et description du segment -->
+    <div class="field grid p-fluid">
+      <div class="field col-12 md:col-6">
+        <h5>Nom du Segment</h5>
+        <input
+          type="text"
+          [(ngModel)]="segmentName"
+          class="p-inputtext p-component"
+          placeholder="Nom du segment"  
+        />
+      </div>
+      <div class="field col-12 md:col-6">
+        <h5>Description</h5>
+        <textarea
+          [(ngModel)]="segmentDescription"
+          class="p-inputtext p-component"
+          placeholder="Description du segment"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Sélection du site (scope) -->
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-6">
+        <h5>Sélectionner un Site</h5>
+        <p-dropdown
+          [options]="scopes"
+          [(ngModel)]="selectedScope"
+          placeholder="Sélectionnez un site"
+          (onChange)="filterEventTypes()"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      
+      <div class="col-12 md:col-6">
+        <h5>Type de Condition</h5>
+        <p-dropdown
+          [options]="[
+            { label: 'Profil - Propriété', value: 'profilePropertyCondition' },
+            { label: 'Type d\'événement', value: 'eventTypeCondition' },
+            { label: 'Événement - Propriété', value: 'eventPropertyCondition' }
+          ]"
+          [(ngModel)]="selectedConditionType"
+          placeholder="Sélectionnez un type de condition"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+     
+    
+
+    <!-- Sélection du type de condition -->
+    
+  
+
+    <!-- Champs pour profilePropertyCondition -->
+    <div class="grid p-fluid" *ngIf="selectedConditionType === 'profilePropertyCondition'">
+      <div class="col-12 md:col-6">
+        <h5>Propriété du Profil</h5>
+        <p-dropdown
+          [options]="profileProperties"
+          [(ngModel)]="selectedProfileProperty"
+          placeholder="Sélectionnez une propriété"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Opérateur</h5>
+        <p-dropdown
+          [options]="operatorsProfile"
+          [(ngModel)]="selectedOperatorProfile"
+          placeholder="Sélectionnez un opérateur"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      <!-- Affichage du champ de valeur si l'opérateur n'est pas exists/missing -->
+      <div class="col-12 md:col-6" *ngIf="selectedOperatorProfile !== 'exists' && selectedOperatorProfile !== 'missing'">
+        <h5>Valeur de la Propriété</h5>
+        <input
+          type="text"
+          [(ngModel)]="profilePropertyValue"
+          class="p-inputtext p-component"
+          placeholder="Valeur de la propriété"
+        />
+      </div>
+    </div>
+
+    <!-- Champs pour eventTypeCondition -->
+    <div class="grid p-fluid" *ngIf="selectedConditionType === 'eventTypeCondition'">
+      <div class="col-12 md:col-6">
+        <h5>Type d'Événement</h5>
+        <p-dropdown
+          [options]="eventTypes"
+          [(ngModel)]="selectedEventType"
+          placeholder="Sélectionnez un type d'événement"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Opérateur</h5>
+        <p-dropdown
+          [options]="operatorsEvent"
+          [(ngModel)]="selectedOperatorEvent"
+          placeholder="Sélectionnez un opérateur"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Nombre minimum d'occurrences</h5>
+        <input
+          type="number"
+          [(ngModel)]="eventTypeMinCount"
+          class="p-inputtext p-component"
+          placeholder="Nombre minimum"
+        />
+      </div>
+    </div>
+
+    <!-- Champs pour eventPropertyCondition -->
+    <div class="grid p-fluid" *ngIf="selectedConditionType === 'eventPropertyCondition'">
+      <div class="col-12 md:col-6">
+        <h5>Type d'Événement</h5>
+        <p-dropdown
+        [options]="eventTypes"
+  [(ngModel)]="selectedEventType"
+  placeholder="Sélectionnez un type d'événement"
+  (onChange)="loadEventProperties()"
+  [showClear]="true">
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Propriété de l'Événement</h5>
+        <p-dropdown
+        [options]="eventProperties"
+        [(ngModel)]="customEventProperty"
+        placeholder="Sélectionnez une propriété"
+        [showClear]="true">
+      ></p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Opérateur</h5>
+        <p-dropdown
+          [options]="operatorsEvent"
+          [(ngModel)]="selectedOperatorEvent"
+          placeholder="Sélectionnez un opérateur"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Valeur de la Propriété</h5>
+        <input
+          type="text"
+          [(ngModel)]="eventPropertyValue"
+          class="p-inputtext p-component"
+          placeholder="Valeur attendue"
+        />
+      </div>
+      <div class="col-12 md:col-6">
+        <h5>Nombre minimum d'occurrences</h5>
+        <input
+          type="number"
+          [(ngModel)]="eventPropertyMinCount"
+          class="p-inputtext p-component"
+          placeholder="Nombre minimum"
+        />
+      </div>
+    </div>
+
+    <!-- Bouton pour ajouter la condition -->
+    <div class="grid p-fluid">
+      <div class="col-12">
+        <button
+          pButton
+          type="button"
+          label="Ajouter Condition"
+          icon="pi pi-plus"
+          class="p-button-success"
+          (click)="addCondition()"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Affichage des conditions ajoutées -->
+    <div class="grid p-fluid" *ngIf="conditions.length > 0">
+      <div class="col-12">
+        <h5>Conditions Ajoutées</h5>
+        <ul>
+          <li *ngFor="let condition of conditions">
+            {{ condition | json }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Sélection de la relation entre conditions -->
+    <div class="grid p-fluid" *ngIf="conditions.length > 1">
+      <div class="col-12 md:col-6">
+        <h5>Relation entre les conditions</h5>
+        <p-dropdown
+          [options]="operatorsBetweenConditions"
+          [(ngModel)]="selectedOperatorBetweenConditions"
+          placeholder="ET / OU"
+          [showClear]="true"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+          <!-- Champ : Description du Scope -->
+     <table>
+      <tr>  
+        <td>
+          .
+        </td>
+        <td>
+          .
+        </td>
+      </tr>
+
+     </table>
+     <table>
+      <tr>  
+        <td>
+          .
+        </td>
+        <td>
+          .
+        </td>
+      </tr>
+
+     </table>
+    </ng-template>
+  
+    <!-- Pied de dialogue -->
+    <ng-template pTemplate="footer">
+      <div class="grid p-fluid">
+        <div class="col-12">
+          <button
+            pButton
+            type="button"
+            label="Créer le Segment"
+            class="p-button-primary"
+            (click)="createSegment()"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-dialog>
+<!-- Dans votre template, par exemple après la liste des segments -->
+<p-dialog 
+header="Détails du segment" 
+[(visible)]="segmentDetailsVisible" 
+[modal]="true" 
+[style]="{'width': '800px'}"
+[closable]="false">
+  
+  <!-- Stepper de PrimeNG -->
+  <p-steps [model]="stepItems" [activeIndex]="activeIndex"></p-steps>
+  
+  <!-- Contenu des étapes -->
+  <div *ngIf="activeIndex === 0" class="step-content">
+    <h3>Détails du segment</h3>
+    <p><strong>Nom :</strong> {{ selectedSegment?.name }}</p>
+    <p><strong>Description :</strong> {{ selectedSegment?.description }}</p>
+    <p><strong>Scope :</strong> {{ selectedSegment?.scope }}</p>
+    <!-- Affichez ici d'autres informations ou détails du segment -->
+  </div>
+  
+  <div *ngIf="activeIndex === 1" class="step-content">
+    <h3>Profils et Événements</h3>
+    <h4>Profils affiliés :</h4>
+    <ul>
+      <li *ngFor="let profile of affiliatedProfiles">
+        {{ profile.itemId }} <!-- Ajustez en fonction de la structure de vos données -->
+      </li>
+    </ul>
+    <h4>Événements admissibles :</h4>
+    <ul>
+      <li *ngFor="let event of qualifyingEvents">
+        <!-- {{ event.eventType }} Ajustez en fonction de vos données -->
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Pied de dialogue avec boutons de navigation -->
+  <ng-template pTemplate="footer">
+    <div class="p-dialog-footer">
+      <button pButton type="button" label="Précédent" icon="pi pi-chevron-left" 
+              (click)="prevStep()" [disabled]="activeIndex === 0"></button>
+      <button pButton type="button" label="Suivant" icon="pi pi-chevron-right" 
+              (click)="nextStep()" [disabled]="activeIndex === stepItems.length - 1"></button>
+      <button pButton type="button" label="Fermer" icon="pi pi-times" (click)="closeSegmentDetails()"></button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+  </p-fieldset>
+
 </div>

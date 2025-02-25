@@ -1,112 +1,154 @@
-<div class="grid">
-    <div *ngFor="let metric of metrics" class="col-12 md:col-6 lg:col-3">
-        <div class="card h-full">
-            <div class="flex align-items-center justify-content-between mb-3">
-                <span class="text-900 text-xl font-semibold">{{metric.title}}</span>
-                <div>
-                    <button pButton pRipple [icon]="metric.icon" class="p-button-text p-button-sm p-button-rounded" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" appendTo="body" [model]="menuitems"></p-menu>
-                </div>
-            </div>
-            <div>
-                <div [ngClass]="metric.color" class="border-round" style="height: 6px">
-                    <div [ngClass]="metric.fieldColor" class="h-full border-round" style="width:34%"></div>
-                </div>
-                <div class="flex align-item-center justify-content-between">
-                    <span class="text-900 mt-3 text-md font-medium">{{metric.files}}</span>
-                    <span class="text-900 mt-3 text-md font-medium">{{metric.fileSize}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 md:col-5 xl:col-3">
-        <div class="card">
-            <div class="text-900 text-xl font-semibold mb-3">Account Storage</div>
-            <p-chart type="doughnut" [plugins]="chartPlugins" id="country-chart" [data]="fileChart" [options]="fileChartOptions" [style]="{'width': '75%'}"></p-chart>
-            <div class="mt-5 flex gap-3">
-                <button pButton pRipple icon="pi pi-search" class="p-button-outlined flex-1" label="Details"></button>
-                <button pButton pRipple icon="pi pi-upload" class="flex-1" label="Upgrade"></button>
-            </div>
-        </div>
+<div>
+    <p-fieldset legend="Gestion des profils utilisateurs"  styleClass="custom-fieldset">
+        <ng-template pTemplate="header">
+          <div class="fieldset-header">
+              <div class="header-description ont-bold">
+                   <h3> Dans cette section, vous trouverez la liste complète des profils utilisateurs, avec toutes les informations enregistrées sur leurs interactions et comportements au sein de la plateforme. Cela vous permet de suivre les actions des utilisateurs de manière détaillée, d'analyser les tendances et d'ajuster vos stratégies en fonction des besoins individuels et des groupes d'utilisateurs.
+                </h3>
+                </div>  
+          </div>
+      </ng-template>
+      
+      <p-chart type="bar" [data]="data" [options]="{ responsive: true, maintainAspectRatio: false }" class="h-[30rem]" />
+      </p-fieldset>
+    
+</div>
 
-        <div class="card">
-            <div class="text-900 text-xl font-semibold mb-3">Categories</div>
-            <ul class="list-none p-0 m-0">
-                <li class="p-3 mb-3 flex align-items-center justify-content-between cursor-pointer border-round bg-indigo-50 text-indigo-900">
-                    <div class="flex align-items-center">
-                        <i class="pi pi-image text-2xl mr-3"></i>
-                        <span class="ext-lg font-medium">Images</span>
-                    </div>
-                    <span class="text-lg font-bold">85</span>
-                </li>
-                <li class="p-3 mb-3 flex align-items-center justify-content-between cursor-pointer border-round bg-purple-50 text-purple-900">
-                    <div class="flex align-items-center">
-                        <i class="pi pi-file text-2xl mr-3"></i>
-                        <span class="ext-lg font-medium">Documents</span>
-                    </div>
-                    <span class="text-lg font-bold">231</span>
-                </li>
-                <li class="p-3 flex align-items-center justify-content-between cursor-pointer border-round bg-teal-50 text-teal-900">
-                    <div class="flex align-items-center">
-                        <i class="pi pi-video text-2xl mr-3"></i>
-                        <span class="ext-lg font-medium">Videos</span>
-                    </div>
-                    <span class="text-lg font-bold">40</span>
-                </li>
-            </ul>
+<div class="card">
+    <div class="loader" *ngIf="loading">
+        <div class="animation">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
         </div>
-        
-        <div class="card p-0">
-            <app-file-uploader></app-file-uploader>
-        </div>
+        <div class="text">Chargement des profils...</div>
     </div>
-    <div class="col-12 md:col-7 xl:col-9">
-        <div class="card">
-            <div class="text-900 text-xl font-semibold mb-3">Folders</div>
-            <div class="grid">
-                <div *ngFor="let folder of folders" class="col-12 md:col-6 xl:col-4">
-                    <div class="p-3 border-1 surface-border flex align-items-center justify-content-between hover:surface-100 cursor-pointer border-round">
-                        <div class="flex align-items-center">
-                            <i [ngClass]="folder.icon" class="text-2xl mr-3"></i>
-                            <span class="text-900 text-lg font-medium">{{folder.name}}</span>
-                        </div>
-                        <span class="text-600 text-lg font-semibold">{{folder.size}}</span>
+    <div *ngIf="error">{{ error }}</div>
+    <div *ngIf="!loading && !error" class="profiles-container">
+        <div
+            *ngFor="let profile of profiles"
+            class="profile-container"
+            (click)="handleClick(profile)"
+            [ngClass]="{ clicked: activeProfile === profile }"
+        >
+            <div class="profile-photo">
+                <img
+                    [src]="profile.imageUrl || '../../../../../assets/demo/images/profil.jpg'"
+                    alt="Photo de profil"
+                />
+            </div>
+            <div class="profile-details">
+                <h3 class="profile-name">  Identifiant du Profile : </h3>
+                <h3 class="profile-name">  {{ profile.itemId || 'Utilisateur' }}</h3>
+                <div *ngIf="profileContexts.length > 0">
+                    <div *ngFor="let context of profileContexts" class="context-box">
+                        <!-- <p><strong>Propriétés  :</strong> {{ context.profileProperties.firstName || 'INCONNU'}} {{ context.profileProperties.lastName || 'INCONNU'}} </p> -->
                     </div>
+                </div>    
+                    <div class="profile-badge">
+                    <span class="admin-badge"> Derniere visite : {{ profile.lastVisit}}</span>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="text-900 text-xl font-semibold mb-3">Recent Uploads</div>
-            <p-table responsiveLayout="scroll" #dt [value]="files" [rows]="8" [paginator]="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="name" style="min-width:12rem" class="white-space-nowrap">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="date" style="min-width:12rem" class="white-space-nowrap">Date <p-sortIcon field="date"></p-sortIcon></th>
-                        <th pSortableColumn="fileSize" style="min-width:12rem" class="white-space-nowrap">File Size <p-sortIcon field="name"></p-sortIcon></th>
-                        <th style="width:10rem"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-file>
-                    <tr>
-                        <td>
-                            <div class="flex align-items-center">
-                                <i [class]="'text-xl text-primary mr-2 ' + file.icon"></i>
-                                <span>{{file.name}}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span>{{file.date}}</span>
-                        </td>
-                        <td>
-                            <span>{{file.fileSize}}</span>
-                        </td>
-                        <td class="text-center">
-                            <button pButton pRipple icon="pi pi-times" class="p-button-danger p-button-text p-button-rounded mr-2"></button>
-                            <button pButton pRipple icon="pi pi-search" class="p-button-text p-button-rounded"></button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
         </div>
     </div>
 </div>
+
+<p-dialog
+    header="Détails du Profil"
+    [(visible)]="profileDialog"
+    [modal]="true"
+    [style]="{ width: '70vw' }"
+    [breakpoints]="{ '960px': '75vw' }"
+    class="custom-dialog"
+>
+    <div class="card-containerr">
+        <div class="cardd">
+            <div class="card-topp">
+                <div class="profile-container">
+                    <div class="profile-details">
+                        <div *ngIf="profileContexts.length > 0">
+                            <div *ngFor="let context of profileContexts" class="context-box">
+                                <p><strong>Nom:  :</strong> {{ context.profileProperties.firstName || "INCONNU"}}</p>
+                                <p><strong>Prenoms :  :</strong> {{ context.profileProperties.lastName || "INCONNU" }}</p>
+                                <p><strong>Dernière Visite   :</strong> {{ context.profileProperties.lastVisit }}</p>
+                                <p><strong>Premiere visite  :</strong> {{ context.profileProperties.firstVisit }}</p>
+                                <p><strong>Nombre de viiste   :</strong> {{ context.profileProperties.nbOfVisits }}</p>
+
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="profile-photo">
+                        <img
+                            src="../../../../../assets/demo/images/profil.jpg"
+                            alt="Photo de profil par défaut"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="card-bottomm">
+               
+                <p-fieldset legend="Profile Metadata">
+                    <div *ngIf="profileContexts.length > 0">
+                        <div *ngFor="let context of profileContexts" class="context-box">
+                            <!-- <p><strong>Scores :</strong> {{ context.scores | json }}</p>
+                            <p><strong>Segments :</strong> {{ context.segments | json }}</p>
+                            <p><strong>Scores :</strong> {{ context.scores | json }}</p>
+                            <p><strong>Propriétés de session :</strong> {{ context.sessionProperties | json }}</p>
+                            <p><strong>Propriétés  :</strong> {{ context.profileProperties | json }}</p>
+                            <p><strong>Propriétés  :</strong> {{ context.profileProperties.firstName }}</p> -->
+                        </div>
+                    </div>
+                    <div *ngIf="profileContexts.length === 0">
+                        <p>Aucune information contextuelle disponible.</p>
+                    </div>
+                </p-fieldset>
+                
+            </div>
+        </div>
+
+        <div class="cardd">
+            <div class="card-contentt">
+                <p-fieldset legend="Événements associés  ">
+                    <div class="events-timeline">
+                        <div *ngIf="filteredEvents.length > 0" class="events-list">
+                            <div *ngFor="let event of filteredEvents" class="event-item">
+                                <!-- En-tête de l'événement -->
+                                <div class="event-header">
+                                    <div class="event-line">
+                                        <div class="event-dot"></div>
+                                    </div>
+                                    <div class="event-main-info">
+                                        <div class="event-time">
+                                            <i class="pi pi-clock"></i> {{ event.timeStamp }}
+                                            <span class="event-type">{{ event.eventType }}</span>
+                                        </div>
+                                        <div class="event-type"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Détails de l'événement -->
+                                <div class="event-details">
+                                    <div class="details-column">
+                                        <ul class="detail-list">
+                                            <li>
+                                                <span class="detail-label">URL du Site :</span>
+                                                <span class="detail-value">{{ getDestinationURL(event) }}</span>
+                                            </li>
+                                            <li>
+                                                <span class="detail-label">Nom de la page  : </span>
+                                                <span class="detail-value">{{ getPage(event) }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="filteredEvents.length === 0" class="no-events">
+                            <p>Aucun événement trouvé pour ce profil.</p>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+        </div>
+    </div>
+</p-dialog>

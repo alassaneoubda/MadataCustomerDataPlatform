@@ -1,128 +1,170 @@
 import { Component, OnInit } from '@angular/core';
-import { Folder } from 'src/app/demo/api/folder';
-import { File } from 'src/app/demo/api/file';
-import { Metric } from 'src/app/demo/api/metric';
 import { FileAppService } from './service/file.app.service';
-import { MenuItem } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { Subscription, debounceTime } from 'rxjs';
+import { formatDate } from '@angular/common';
 
 @Component({
-    templateUrl: './file.app.component.html',
-    styleUrls: ['./file.app.component.scss'],
+  selector: 'app-file',
+  templateUrl: './file.app.component.html',
+  styleUrls: ['./file.app.component.scss'],
 })
 export class FileAppComponent implements OnInit {
-    fileChart: any;
+  profiles: any[] = []; // Liste des profils
+  allEvents: any[] = []; // Liste complète des événements
+  filteredEvents: any[] = []; // Événements filtrés liés au profil actif
+  activeProfile: any | null = null; // Profil actif
+  profileDialog: boolean = false; // État de la boîte de dialogue
+  loading: boolean = true; // Indicateur de chargement
+  error: string | null = null; // Gestion des erreurs
+  data: any; // Nouvelle propriété pour stocker les données du graphique
+  options: any; // Déclaration de la propriété options
+  profileContexts: any[] = []; // ✅ Stocke les données contextuelles des sessions
 
-    fileChartOptions: any;
+  constructor(
+    private fileService: FileAppService,
+    private layoutService: LayoutService
+  ) {
+    // Initialisation des options du graphique
+    this.options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      // Ajoutez d'autres options de configuration si nécessaire
+    };
+  }
 
-    chartPlugins: any;
+  ngOnInit(): void {
 
-    files: File[] = [];
+    // Charger les profils
+    this.fileService.getProfiles().subscribe({
+      next: (data: any) => {
+        this.profiles = data.list.map((profile: any) => ({
+          itemId: profile.itemId,
+          nbOfVisits: profile.properties?.nbOfVisits,
+          lastVisit: profile.properties?.lastVisit,
+          firstVisit: profile.properties?.firstVisit,
+          properties: profile.properties,
+        }));
+        console.log('Profils chargés :', this.profiles);  // Log des profils
+        this.loading = false;
+        this.prepareChartData(); // Appel de la méthode pour préparer les données du graphique
+      },
+      error: () => {
+        this.error = 'Erreur lors du chargement des profils.';
+        this.loading = false;
+      },
+    });
 
-    metrics: Metric[] = [];
+    // Charger tous les événements
+    this.fileService.getAllEvents().subscribe({
+      next: (data: any) => {
+        console.log('Réponse brute de l\'API pour les événements data :', data); // Log de la réponse brute
+        this.allEvents = data.list || [];
+        console.log('data1', data.list || [] )
+        console.log('Événements chargés :', this.allEvents);  // Log des événements
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des événements :', err);
+      },
+    });
+  }
 
-    folders: Folder[] = [];
+  // Nouvelle méthode pour préparer les données du graphique
+  prepareChartData(): void {
+    const monthlyVisits: { [key: string]: number } = {}; // Typage de monthlyVisits
 
-    menuitems: MenuItem[] = [];
+    this.profiles.forEach(profile => {
+      const month = new Date(profile.lastVisit).toLocaleString('fr-FR', { month: 'long' });
+      if (!monthlyVisits[month]) {
+        monthlyVisits[month] = 0;
+      }
+      monthlyVisits[month] += profile.nbOfVisits || 0; // Compte le nombre de visites
+    });
 
-    subscription: Subscription;
+    this.data = {
+      labels: Object.keys(monthlyVisits),
+      datasets: [
+        {
+          label: 'Visites par mois',
+          data: Object.values(monthlyVisits),
+          fill: false,
+          borderColor: '#42A5F5',
+          tension: 0.1
+        }
+      ]
+    };
+  }
 
-    constructor(
-        private fileService: FileAppService,
-        private layoutService: LayoutService
-    ) {
-        this.subscription = this.layoutService.configUpdate$
-            .pipe(debounceTime(25))
-            .subscribe((config) => {
-                this.initChart();
-            });
-    }
+  handleClick(profile: any): void {
+    this.activeProfile = profile;
+    console.log('Profil actif sélectionné :', this.activeProfile);
 
-    ngOnInit() {
-        this.fileService.getFiles().then((data) => (this.files = data));
-        this.fileService.getMetrics().then((data) => (this.metrics = data));
-        this.fileService
-            .getFoldersLarge()
-            .then((data) => (this.folders = data));
+    // 1️⃣ Filtrer les événements liés au profil actif
+    this.filteredEvents = this.allEvents.filter(event => event.profileId === profile.itemId);
+    console.log('Événements filtrés pour le profil actif :', this.filteredEvents);
 
-        this.initChart();
+    // 2️⃣ Extraire les sessionId uniques
+    const sessionIds = [...new Set(this.filteredEvents.map(event => event.sessionId).filter(id => id))];
+    console.log('Session IDs trouvés :', sessionIds);
 
-        this.menuitems = [
-            { label: 'View', icon: 'pi pi-search' },
-            { label: 'Refresh', icon: 'pi pi-refresh' },
-        ];
-    }
+    // 3️⃣ Réinitialiser la variable qui va stocker les résultats
+    this.profileContexts = [];
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-
-        this.chartPlugins = [
-            {
-                beforeDraw: function (chart: any) {
-                    let ctx = chart.ctx;
-                    let width = chart.width;
-                    let height = chart.height;
-                    let fontSize = 1.5;
-                    let oldFill = ctx.fillStyle;
-
-                    ctx.restore();
-                    ctx.font = fontSize + 'rem sans-serif';
-                    ctx.textBaseline = 'middle';
-
-                    let text = 'Free Space';
-                    let text2 = 50 + 'GB / ' + 80 + 'GB';
-                    let textX = Math.round(
-                        (width - ctx.measureText(text).width) / 2
-                    );
-                    let textY = (height + chart.chartArea.top) / 2.25;
-
-                    let text2X = Math.round(
-                        (width - ctx.measureText(text).width) / 2.1
-                    );
-                    let text2Y = (height + chart.chartArea.top) / 1.75;
-
-                    ctx.fillStyle =
-                        chart.config.data.datasets[0].backgroundColor[0];
-                    ctx.fillText(text, textX, textY);
-                    ctx.fillText(text2, text2X, text2Y);
-                    ctx.fillStyle = oldFill;
-                    ctx.save();
-                },
+    // 4️⃣ Faire une requête pour chaque sessionId et stocker les résultats
+    sessionIds.forEach(sessionId => {
+        this.fileService.getContextBySession(sessionId).subscribe({
+            next: (contextData) => {
+                console.log(`Données du contexte pour sessionId ${sessionId} :`, contextData);
+                this.profileContexts.push(contextData); // Stocker les résultats
             },
-        ];
+            error: (err) => {
+                console.error(`Erreur pour sessionId ${sessionId} :`, err);
+            }
+        });
+        
+    });
+    
 
-        this.fileChart = {
-            datasets: [
-                {
-                    data: [300, 100],
-                    backgroundColor: [
-                        documentStyle.getPropertyValue('--primary-600'),
-                        documentStyle.getPropertyValue('--primary-100'),
-                    ],
-                    hoverBackgroundColor: [
-                        documentStyle.getPropertyValue('--primary-700'),
-                        documentStyle.getPropertyValue('--primary-200'),
-                    ],
-                    borderColor: 'transparent',
-                    fill: true,
-                },
-            ],
-        };
+    // 5️⃣ Ouvrir la boîte de dialogue
+    this.openProfileDialog();
+}
+getDestinationURL(filteredEvents: any): string {
+  if (filteredEvents.eventType === 'view' || filteredEvents.eventType === 'click') {
+      return filteredEvents.target?.properties?.pageInfo?.destinationURL ||
+      filteredEvents.source?.properties?.pageInfo?.destinationURL || 'URL non disponible';
+  } 
+  if (filteredEvents.eventType === 'contactInfoSubmitted') {
+      return filteredEvents.source?.properties?.pageInfo?.destinationURL ||
+             'URL non disponible';
+  } 
+  return 'URL non disponible';
+}
+getPage(filteredEvents: any): string {
+  if (filteredEvents.eventType === 'view' || filteredEvents.eventType === 'click') {
+      return filteredEvents.target?.properties?.pageInfo?.pageName ||
+      filteredEvents.source?.properties?.pageInfo?.pageName || 'URL non disponible';
+  } 
+  if (filteredEvents.eventType === 'contactInfoSubmitted') {
+      return filteredEvents.source?.properties?.pageInfo?.pageName ||
+             'URL non disponible';
+  } 
+  return 'URL non disponible';
+}
 
-        this.fileChartOptions = {
-            animation: {
-                duration: 0,
-            },
-            cutout: '90%',
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor,
-                    },
-                },
-            },
-        };
-    }
+
+  openProfileDialog(): void {
+    console.log('Ouverture de la boîte de dialogue pour le profil :', this.activeProfile);  // Log de l'ouverture de la boîte de dialogue
+    this.profileDialog = true;
+  }
+
+  // Assurez-vous d'avoir cette fonction dans votre composant
+formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
 }

@@ -1,116 +1,240 @@
-import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/demo/service/event.service';
+import { Component, ElementRef,OnInit } from '@angular/core';
+import { ScopeService } from './scope.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { Table } from 'primeng/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import hljs from 'highlight.js';
+import { ChangeDetectorRef } from '@angular/core';
+
 // @fullcalendar plugins
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { Scope } from 'src/app/demo/api/Scope';
+import { O } from '@fullcalendar/core/internal-common';
+
 
 @Component({
     templateUrl: './calendar.app.component.html',
-    styleUrls: ['./calendar.app.component.scss']
+    styleUrls: ['./calendar.app.component.scss'],
+    providers: [MessageService, ConfirmationService],
 })
-export class CalendarAppComponent implements OnInit {
-
-    events: any[] = [];
-
-    today: string = '';
-
-    calendarOptions: any = {
-        initialView: 'dayGridMonth'
-    };
-
-    showDialog: boolean = false;
-
-    clickedEvent: any = null;
-
-    dateClicked: boolean = false;
-
-    edit: boolean = false;
-
-    tags: any[] = [];
-
-    view: string = '';
-
-    changedEvent: any;
-
-    constructor(private eventService: EventService) { }
-
-    ngOnInit(): void {
-        this.today = '2022-05-11';
-
-        this.eventService.getEvents().then(events => {
-            this.events = events;
-            this.calendarOptions = { ...this.calendarOptions, ...{ events: events } };
-            this.tags = this.events.map(item => item.tag);
-        });
-
-        this.calendarOptions = {
-            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-            height: 720,
-            initialDate: this.today,
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            editable: true,
-            selectable: true,
-            selectMirror: true,
-            dayMaxEvents: true,
-            eventClick: (e: MouseEvent) => this.onEventClick(e),
-            select: (e: MouseEvent) => this.onDateSelect(e)
-        };
-    }
-
-    onEventClick(e: any) {
-        this.clickedEvent = e.event;
-        let plainEvent = e.event.toPlainObject({ collapseExtendedProps: true, collapseColor: true });
-        this.view = 'display';
-        this.showDialog = true;
-
-        this.changedEvent = { ...plainEvent, ...this.clickedEvent };
-        this.changedEvent.start = this.clickedEvent.start;
-        this.changedEvent.end = this.clickedEvent.end ? this.clickedEvent.end : this.clickedEvent.start;
-    }
-
-    onDateSelect(e: any) {
-        this.view = 'new'
-        this.showDialog = true;
-        this.changedEvent = { ...e, title: null, description: null, location: null, backgroundColor: null, borderColor: null, textColor: null, tag: { color: null, name: null } };
-    }
-
-    handleSave() {
-        if (!this.validate()) {
-            return;
-        }
-        else {
-            this.showDialog = false;
-            this.clickedEvent = { ...this.changedEvent, backgroundColor: this.changedEvent.tag.color, borderColor: this.changedEvent.tag.color, textColor: '#212121' };
-
-            if (this.clickedEvent.hasOwnProperty('id')) {
-                this.events = this.events.map(i => i.id.toString() === this.clickedEvent.id.toString() ? i = this.clickedEvent : i);
-            } else {
-                this.events = [...this.events, { ...this.clickedEvent, id: Math.floor(Math.random() * 10000) }];
-            }
-            this.calendarOptions = { ...this.calendarOptions, ...{ events: this.events } };
-            this.clickedEvent = null;
-        }
-
-    }
-
-    onEditClick() {
-        this.view = 'edit';
-    }
-
-    delete() {
-        this.events = this.events.filter(i => i.id.toString() !== this.clickedEvent.id.toString());
-        this.calendarOptions = { ...this.calendarOptions, ...{ events: this.events } };
-        this.showDialog = false;
-    }
-
-    validate() {
-        let { start, end } = this.changedEvent;
-        return start && end;
-    }
-
+export class CalendarAppComponent implements OnInit  {
+  
+  showSuccessViaToast() {
+    this.service.add({ key: 'tst', severity: 'success', summary: 'Scope crée avec succes',  });
 }
+showSuccessViaToast1() {
+  this.service.add({ key: 'tst', severity: 'success', summary: 'Scope Supprimé avec succes',  });
+}
+
+  //=====================================================================================================
+  selectedScope: any | null = null; // Scope actuellement sélectionné
+
+  trackerCode: string | null = null;
+  
+  //===================================== =====================================================
+
+    sidebarVisible: boolean = false;
+    //bouton
+    eventcreaton() {
+        this.sidebarVisible = true;
+    };
+    eventcreatoff(){
+      this.sidebarVisible = false;
+
+    };
+    sidebarevent: boolean = false;
+    //bouton
+   
+    showevent(scope: any): void {
+      this.sidebarevent = true;
+      this.selectedScope = scope; // Enregistre le scope sélectionné
+    }
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // side bar
+    visibleSidebar: boolean = false;
+    scope : Scope={};
+    scopeDialog: boolean = false;
+    scopeForm: FormGroup;
+    successMessage: string = '';
+    errorMessage: string = '';
+    scopes: any[] = [];
+  private apiUrl = 'http://66.29.155.72:8181/cxs/scopes';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa('karaf:karaf') // Remplacez par vos identifiants
+    })
+  };
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  toggleSidebar() {
+    this.visibleSidebar = true;
+  }
+ 
+  
+    constructor(
+      private service: MessageService,
+      private http: HttpClient,
+      private scopeService: ScopeService,
+      private messageService: MessageService, private confirmationService: ConfirmationService,
+      private fb: FormBuilder,
+      private el: ElementRef,
+      private cdr: ChangeDetectorRef,
+
+
+   ) { 
+      const trackerScript = this.generateTracker('myTrackId', 'mySiteId');
+      console.log(trackerScript);
+      this.scopeForm = this.fb.group({
+        name: ['', Validators.required],
+        description: ['', Validators.required],
+      });
+    }
+    ngOnInit(): void {
+      this.loadScopes();
+       
+    const blocks = this.el.nativeElement.querySelectorAll('pre code');
+    blocks.forEach((block: HTMLElement): void => {
+      hljs.highlightBlock(block);
+    });
+    }
+    deleteScope(scopeId: string): void {
+      this.scopeService.deleteScope(scopeId).subscribe({
+        next: () => {
+          this.scopes = this.scopes.filter(scope => scope.metadata.id !== scopeId);  // Mettre à jour la liste des scopes après suppression
+          this.successMessage = 'Scope supprimé avec succès.'
+          
+        },
+        error: (error) => {
+          this.errorMessage = 'Une erreur est survenue lors de la suppression du scope.';
+        }
+      });
+    }
+    loadScopes(): void {
+      this.http.get<any[]>(this.apiUrl, this.httpOptions).subscribe({
+        next: (data) => {
+          this.scopes = data;
+            console.error('scope charger', this.scopes);
+
+           ;
+        },
+        error: (error) => {
+          this.errorMessage = 'Erreur lors de la récupération des scopes : ' + error.message;
+        }
+      });
+    }
+    // this.product.id = this.createId();
+    // this.product.code = this.createId();
+    onSubmit(): void {
+      if (this.scopeForm.valid) {
+          const scope = {
+              itemId: this.scopeForm.value.name,
+              metadata: {
+                  id: this.scopeForm.value.name,
+                  name: this.scopeForm.value.name,
+                  description: this.scopeForm.value.description,
+              },
+          };
+  
+          this.http.post('http://66.29.155.72:8181/cxs/scopes', scope, {
+              headers: new HttpHeaders({
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Basic ' + btoa('karaf:karaf')
+              }),
+          }).subscribe({
+              next: (response) => {
+                  console.log('Scope created successfully', response);
+                  this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Scope créé avec succès' });
+                  this.loadScopes(); // Recharge les scopes après la création
+                  this.scopeForm.reset(); // Réinitialise le formulaire
+                  this.sidebarVisible = false; // Ferme le dialogue
+
+                  this.cdr.detectChanges(); // Force Angular à détecter les changements
+
+              },
+              error: (error) => {
+                  console.error('Error creating scope', error);
+              },
+          });
+      }
+  }
+  
+    createId(): string {
+      let scopeIdd= '';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      for (let i = 0; i < 5; i++) {
+        scopeIdd += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return scopeIdd;
+  }
+  generateTracker(TrackId: any , siteId :  any): string {
+    const trackerCode = `<script type="text/javascript" src="/tracker/unomi-web-tracker.min.js"></script>
+<script>
+  (function () {
+const unomiWebTracker = useTracker();
+const unomiTrackerTestConf = {
+    "scope": "${TrackId}",
+    "site": {
+        "siteInfo": {
+            "siteID": "${siteId}"
+        }
+    },
+    "page": {
+        "pageInfo": {
+            "pageID": "${siteId}",
+            "pageName": document.title,
+            "pagePath": document.location.pathname,
+            "destinationURL": document.location.origin + document.location.pathname,
+            "language": "en",
+            "categories": [],
+            "tags": []
+        },
+        "attributes": {},
+        "consentTypes": []
+    },
+    "events:": [],
+    "wemInitConfig": {
+        "contextServerUrl": document.location.origin,
+        "timeoutInMilliseconds": "1500",
+        "contextServerCookieName": "context-profile-id",
+        "activateWem": true,
+        "trackerSessionIdCookieName": "unomi-tracker-test-session-id",
+        "trackerProfileIdCookieName": "unomi-tracker-test-profile-id"
+    }
+}
+// generate a new session
+if (unomiWebTracker.getCookie(unomiTrackerTestConf.wemInitConfig.trackerSessionIdCookieName) == null) {
+    unomiWebTracker.setCookie(unomiTrackerTestConf.wemInitConfig.trackerSessionIdCookieName, unomiWebTracker.generateGuid(), 1);
+}
+
+// init tracker with our conf
+unomiWebTracker.initTracker(unomiTrackerTestConf);
+
+unomiWebTracker._registerCallback(() => {
+    console.log("Unomi tracker test successfully loaded context", unomiWebTracker.getLoadedContext());
+}, 'Unomi tracker test callback example');
+
+// start the tracker
+unomiWebTracker.startTracker();
+})();
+</script>`;
+
+
+
+
+    return this.escapeHtml(trackerCode);
+  }
+
+  escapeHtml(unsafe: string): string {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  }
+  

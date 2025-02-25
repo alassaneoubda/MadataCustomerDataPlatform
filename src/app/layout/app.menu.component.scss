@@ -1,0 +1,79 @@
+.layout-menu {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    li {
+        margin: 8px 0;
+        
+        a {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: var(--text-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            
+            .pi {
+                font-size: 2.3rem;
+                margin-right: 12px;
+                transition: transform 0.3s ease;
+            }
+
+            &:hover {
+                background-color: var(--primary-color);
+                color: var(--primary-color-text);
+                transform: translateX(5px);
+
+                .pi {
+                    transform: scale(1.2);
+                }
+            }
+        }
+
+        &.active-menuitem {
+            > a {
+                background-color: var(--primary-color);
+                color: var(--primary-color-text);
+                font-weight: 600;
+            }
+        }
+    }
+
+    .menu-separator {
+        border-top: 3px solid var(--surface-border);
+        margin: 2rem 0;
+    }
+}
+
+// Ajout de styles pour espacer et styliser le texte
+.app-menu {
+    // Espacement entre les éléments
+    margin: 10px 0;
+
+    // Style du texte
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+
+    // Animation pour les éléments au survol
+    transition: all 0.3s ease;
+
+    &:hover {
+        color: #007bff; // Changer la couleur au survol
+        transform: scale(1.05); // Légère augmentation de la taille
+    }
+}
+
+// Ajout d'une animation pour les éléments de la liste
+.app-menu-item {
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px); // Légère élévation au survol
+    }
+}

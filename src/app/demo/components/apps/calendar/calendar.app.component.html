@@ -1,99 +1,160 @@
-<div class="card">
-    <full-calendar [options]="calendarOptions"></full-calendar>
+<div>
+  <p-toast key="tst"></p-toast>
+<p-fieldset legend="Insitialisez votres suivis "  styleClass="custom-fieldset">
+    <ng-template pTemplate="header">
+        <div class="fieldset-header">
+            <div class="header-description ont-bold">
+              <h3>La source d'événement ouvre une API via laquelle vous pourrez envoyer des données. Cliquez sur une source d'événement pour voir l'extrait de code Javascript ou l'URL de l'API que vous pouvez utiliser pour collecter des données.</h3>              </div>
+        </div>
+    </ng-template>
+    <!-- <p-toolbar styleClass="mb-3"> -->
+        <!-- <div>
+            <div class="scope-manager">
+                <h2>Event Sources</h2>
+                <p>
+                  Event source opens an API through which you will be able to send data.
+                  Click on an event source to see the Javascript snippet or API URL that
+                  you can use to collect data.
+                </p>
+              </div>
+        </div> -->
+    <!-- </p-toolbar> -->
+    <div class="p-fluid p-formgrid grid flex">
+      <div class="field col-12 md:col-10">
+          <span class="p-input-icon-right">
+              <input type="text" pInputText placeholder="Search" />
+              <i class="pi pi-search"></i>
+          </span>
+      </div>
+      <div class="field col-12 md:col-2">
+        <p-button label="Creer Un scope" icon="pi pi-plus" severity="success" (click)="eventcreaton()" />
+      </div>
+  </div>
+    <!-- Affichage des scopes -->
+  <div class="scopes-container">
+    <div *ngFor="let scope of scopes" class="scope-card">
+      <div class="status-indicator"></div>
+      <div class="scope-details">
+        <strong>{{ scope.metadata.name }}</strong>
+        <p *ngIf="scope.metadata.description">{{ scope.metadata.description }}</p>
+        <p *ngIf="!scope.metadata.description">No description provided</p>
+      </div>
+      <div class="scope-actions">
+        <button pButton pRipple type="button" label="charger la portée" class="p-button-rounded p-button-success" (click)="showevent(scope)"></button>
+        <button pButton pRipple type="button" label="Rest" class="p-button-success p-button-text"></button>
+        <button pButton pRipple type="button" label="Api" class="p-button-success p-button-text"></button>    
+        <button pButton pRipple type="button" icon="" class="p-button-rounded p-button-danger" (click)="deleteScope(scope.metadata.id); showSuccessViaToast1()">
+      <i class="pi pi-trash" style="font-size: 1rem"></i>
+    </button>
+      </div>
+    </div>
+  </div>
+  
+</p-fieldset>
+<p-dialog 
+  header="Créer un Scope" 
+  [(visible)]="sidebarVisible" 
+  [modal]="true" 
+  showEffect="fade" 
+  [style]="{width: '30vw'}" 
+  [breakpoints]="{'960px': '75vw'}" 
+  class="custom-dialog">
+  
+  <!-- Contenu principal -->
+  <ng-template pTemplate="content">
+    <div class="form-container">
+      <form [formGroup]="scopeForm" (ngSubmit)="onSubmit()" class="custom-form">
+        <!-- Champ : Nom du Scope -->
+        <div class="form-field">
+          <label for="name" class="form-label">Nom du Scope :</label>
+          <input 
+            pInputText 
+            id="name" 
+            formControlName="name" 
+            type="text" 
+            class="form-input">
+          <small 
+            *ngIf="scopeForm.get('name')?.invalid && scopeForm.get('name')?.touched" 
+            class="form-error">
+            Le nom est requis.
+          </small>
+        </div>
 
-    <p-dialog #dd [(visible)]="showDialog" [breakpoints]="{'960px': '75vw', '640px': '90vw'}" [style]="{width: '36rem'}" [modal]="true" [closable]="true" (onHide)="view = ''">
-        <ng-template pTemplate="header">
-            <span class="text-900 font-semibold text-xl">{{view === 'display' ? changedEvent.title : view === 'new' ? 'New Event' : 'Edit Event'}}</span>
-        </ng-template>
-        <ng-template pTemplate="content">
-            <div *ngIf="view === 'display'">
-                <span class="text-900 font-semibold block mb-2">Description</span>
-                <span class="block mb-3">{{changedEvent.description}}</span>
+        <!-- Champ : Description du Scope -->
+        <div class="form-field">
+          <label for="description" class="form-label">Description du Scope :</label>
+          <textarea 
+            pInputTextarea 
+            id="description" 
+            formControlName="description" 
+            rows="4" 
+            class="form-textarea"></textarea>
+          <small 
+            *ngIf="scopeForm.get('description')?.invalid && scopeForm.get('description')?.touched" 
+            class="form-error">
+            La description est requise.
+          </small>
+        </div>
+      </form>
+    </div>
+  </ng-template>
 
-                <div class="grid">
-                    <div class="col-6">
-                        <div class="text-900 font-semibold mb-2">Start</div>
-                        <p class="flex align-items-center m-0">
-                            <i class="pi pi-fw pi-clock text-700 mr-2"></i>
-                            <span>{{changedEvent.start.toISOString().slice(0,10)}}</span>
-                        </p>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-900 font-semibold mb-2">End</div>
-                        <p class="flex align-items-center m-0">
-                            <i class="pi pi-fw pi-clock text-700 mr-2"></i>
-                            <span>{{changedEvent.end.toISOString().slice(0,10)}}</span>
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <div class="text-900 font-semibold mb-2">Location</div>
-                        <p class="flex align-items-center m-0">
-                            <i class="pi pi-fw pi-clock text-700 mr-2"></i>
-                            <span>{{changedEvent.location}}</span>
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <div class="text-900 font-semibold mb-2">Color</div>
-                        <p class="flex align-items-center m-0">
-                            <span class="inline-flex flex-shrink-0 w-1rem h-1rem mr-2 border-circle" [style.backgroundColor]="changedEvent.tag.color"></span>
-                            <span>{{changedEvent.tag.name}}</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="view !== 'display'">
-                <div class="grid p-fluid formgrid">
-                    <div class="col-12 md:col-6 field">
-                        <label for="title" class="text-900 font-semibold">Title</label>
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-pencil"></i>
-                            <input id="title" type="text" pInputText placeholder="Title" [(ngModel)]="changedEvent.title" />
-                        </span>
-                    </div>
-                    <div class="col-12 md:col-6 field">
-                        <label for="location" class="text-900 font-semibold">Location</label>
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-map-marker"></i>
-                            <input id="location" type="text" pInputText placeholder="Location" [(ngModel)]="changedEvent.location" />
-                        </span>
-                    </div>
-                    <div class="col-12 field">
-                        <label for="description" class="text-900 font-semibold">Event Description</label>
-                        <textarea id="description" type="text" pInputTextarea [rows]="5" [(ngModel)]="changedEvent.description" style="resize: none"></textarea>
-                    </div>
+  <!-- Pied de dialogue -->
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <!-- Bouton : Créer -->
+      <button 
+        pButton 
+        icon="pi pi-check" 
+        label="Créer le Scope" 
+        class="btn btn-primary"
+        (click)="onSubmit();loadScopes() ;showSuccessViaToast()">
+      </button>
+      
+      <!-- Bouton : Annuler -->
 
-                    <div class="col-12 md:col-6 field">
-                        <label for="start" class="text-900 font-semibold">Start Date</label>
-                        <p-calendar [appendTo]="dd" dateFormat="mm-dd-yy" [maxDate]="changedEvent.end" [showTime]="true" [required]="true" inputId="start" [(ngModel)]="changedEvent.start"></p-calendar>
-                    </div>
-                    <div class="col-12 md:col-6 field">
-                        <label for="start" class="text-900 font-semibold">End Date</label>
-                        <p-calendar [appendTo]="dd" dateFormat="mm-dd-yy" [minDate]="changedEvent.start" [showTime]="true" [required]="true" inputId="end" [(ngModel)]="changedEvent.end"></p-calendar>
-                    </div>
-                    <div class="col-12 field">
-                        <label for="company-color" class="text-900 font-semibold">Color</label>
-                        <p-dropdown inputId="company-color" [appendTo]="dd" [options]="tags" [(ngModel)]="changedEvent.tag" optionLabel="name">
-                            <ng-template pTemplate="selectedItem">
-                                <div *ngIf="changedEvent.tag" class="flex align-items-center">
-                                    <div class="flex-shrink-0 w-1rem h-1rem mr-2 border-circle" [style.backgroundColor]="changedEvent.tag.color"></div>
-                                    <div>{{changedEvent.tag.name}}</div>
-                                </div>
-                            </ng-template>
-                            <ng-template let-tag pTemplate="item">
-                                <div class="flex align-items-center">
-                                    <div class="flex-shrink-0 w-1rem h-1rem mr-2 border-circle" [style.backgroundColor]="tag.color"></div>
-                                    <div>{{tag.name}}</div>
-                                </div>
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
+    </div>
+  </ng-template>
+</p-dialog>
 
-        <ng-template pTemplate="footer">
-            <button pButton *ngIf="view === 'display'" label="Edit" icon="pi pi-pencil" (click)="onEditClick()"></button>
-            <button pButton *ngIf="view === 'new' || view === 'edit'" label="Save" icon="pi pi-check" (click)="handleSave()" [disabled]="!changedEvent.start || !changedEvent.end"></button>
-        </ng-template>
-    </p-dialog>
+
+
+
+<p-sidebar #sidebar [(visible)]="sidebarevent" position="right" [baseZIndex]="10000" styleClass="w-full md:w-8 lg:w-6 xl:w-5" [showCloseIcon]="false">
+  <p-toolbar>
+    <div class="w-full">
+      <h1 class="text-xl font-bold m-0">
+        Intégrez le code du Tracker
+      </h1>
+    </div>
+  </p-toolbar>
+  
+  <ng-template pTemplate="content">
+    <div class="p-4">
+      <div *ngIf="selectedScope" class="selected-scope bg-gray-50 p-4 rounded-lg mb-4">
+        <div class="grid gap-3">
+          <div class="scope-info-item">
+            <strong class="text-lg text-primary">Nom:</strong>
+            <span class="ml-2">{{ selectedScope.metadata.name }}</span>
+          </div>
+          <div class="scope-info-item">
+            <strong class="text-lg text-primary">Description:</strong>
+            <span class="ml-2">{{ selectedScope.metadata.description || 'Aucune description fournie' }}</span>
+          </div>
+          <div class="scope-info-item">
+            <strong class="text-lg text-primary">ID:</strong>
+            <span class="ml-2">{{ selectedScope.metadata.id }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="code-container mt-4">
+        <pre class="bg-gray-900 p-4 rounded-lg"><code class="text-white" [innerHTML]="generateTracker(selectedScope.metadata.name, selectedScope.metadata.description)"></code></pre>
+      </div>
+    </div>
+  </ng-template>
+</p-sidebar>
+ 
 </div>
+
+

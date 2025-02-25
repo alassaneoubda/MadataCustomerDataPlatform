@@ -13,9 +13,40 @@ import { UserCardComponent } from './user-card/user-card.component';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { ChatService } from './service/chat.service';
 import { RippleModule } from 'primeng/ripple';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { ChartModule } from 'primeng/chart'
+import { TabViewModule } from 'primeng/tabview';
+import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
+import { DividerModule } from 'primeng/divider';
+import { SplitterModule } from 'primeng/splitter';
+import { PanelModule } from 'primeng/panel';
+import { ToolbarModule } from 'primeng/toolbar';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
     imports: [
+        SliderModule,
+        SplitButtonModule,
+        FieldsetModule,
+        ToolbarModule,
+        PanelModule,
+        SplitterModule,
+        DividerModule,
+        MenuModule,
+        MenuModule,
+        TableModule,
+        TabViewModule,
+        ChartModule,
+        MatCardModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatTableModule,
         CommonModule,
         FormsModule,
         ChatAppRoutingModule,

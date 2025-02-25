@@ -28,9 +28,11 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { MailService } from './service/mail.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
+        ReactiveFormsModule,
         CommonModule,
         FormsModule,
         MailAppRoutingModule,

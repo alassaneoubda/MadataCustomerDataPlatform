@@ -1,1 +1,31 @@
-<app-mail-table [mails]="mails"></app-mail-table>
+<div class="container">
+    <h2>Créer un Segment</h2>
+  
+    <form [formGroup]="segmentForm">
+      <div class="form-group">
+        <label>Nom du Segment *</label>
+        <input type="text" class="form-control" formControlName="segmentName" required>
+      </div>
+  
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="segmentDescription"></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label>Type de Scope</label>
+        <input type="radio" formControlName="isGlobal" value="true"> Global
+        <input type="radio" formControlName="isGlobal" value="false"> Scope spécifique
+      </div>
+  
+      <div *ngIf="segmentForm.get('isGlobal')?.value === 'false'">
+        <label>Scope</label>
+        <select class="form-control" formControlName="selectedScope">
+          <option *ngFor="let scope of scopes" [value]="scope.value">{{ scope.label }}</option>
+        </select>
+      </div>
+  
+      <button type="button" class="btn btn-success mt-3" (click)="submitSegment()">Créer Segment</button>
+    </form>
+  </div>
+  
