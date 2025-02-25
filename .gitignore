@@ -1,5 +1,20 @@
 node_modules
 node_modules
+# Fichiers Node.js
+node_modules/
+package-lock.json
+
+# Dossier de build Angular
+dist/
+.angular/
+
+# Fichiers spécifiques à l'éditeur
+.vscode/
+.idea/
+
+# Système
+.DS_Store
+Thumbs.db
 
 
 build
